@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Shooter 3 SWAT</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+#unity-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#unity-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#loading {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: #000;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">Loading Time Shooter 3...</div>
+
+<div id="unity-container">
+    <canvas id="unity-canvas"></canvas>
+</div>
+
+<script>
+const buildUrl =
+"https://cdn.jsdelivr.net/gh/mistirk/google@eebffdf79a14f6e01e153d5cd4bed23c432874fb/version/time-s3";
+
+const config = {
+    dataUrl: buildUrl + "/ts3.data",
+    frameworkUrl: buildUrl + "/ts3.framework.js",
+    codeUrl: buildUrl + "/ts3.wasm",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "GoGoMan",
+    productName: "Time Shooter SWAT",
+    productVersion: "0.03"
+};
+
+const canvas = document.getElementById("unity-canvas");
+const loading = document.getElementById("loading");
+
+const loader = document.createElement("script");
+loader.src = buildUrl + "/ts3.loader.js";
+
+loader.onload = function () {
+    createUnityInstance(
+        canvas,
+        config,
+        function (progress) {
+            loading.textContent =
+                "Loading Time Shooter 3... " +
+                Math.round(progress * 100) + "%";
+        }
+    ).then(function (instance) {
+
+        window.unityInstance = instance;
+        loading.style.display = "none";
+
+        canvas.addEventListener("pointerdown", function () {
+            canvas.focus();
+        });
+
+    }).catch(function (error) {
+
+        loading.textContent =
+            "Game failed to load: " + error;
+
+        console.error(error);
+    });
+};
+
+loader.onerror = function () {
+    loading.textContent = "Failed to load the Unity game.";
+};
+
+document.body.appendChild(loader);
+</script>
+
+</body>
+</html>
