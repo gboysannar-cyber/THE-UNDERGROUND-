@@ -3,189 +3,1742 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>The Underground</title>
+<title>THE UNDERGROUND</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box;scroll-behavior:smooth}
+
+html,body{
+margin:0;
+padding:0;
+background:#08052e;
+color:#fff;
+font-family:Arial,Helvetica,sans-serif;
+overflow-x:hidden
 }
 
-html, body {
-  margin: 0;
-  width: 100%;
-  min-height: 100%;
-  background: #080808;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-shadow: 1px 1px 2px #ffffff; /* light shadow for better readability */
+body::before{
+content:"";
+position:fixed;
+width:600px;
+height:600px;
+background:#006eff;
+filter:blur(180px);
+opacity:.18;
+top:-250px;
+left:-200px;
+z-index:-1
 }
 
-
-body {
-    overflow-x: hidden;
+body::after{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:#e900ff;
+filter:blur(180px);
+opacity:.15;
+right:-200px;
+bottom:-200px;
+z-index:-1
 }
 
-header {
-    padding: 25px;
-    text-align: center;
-    background: #111;
-    border-bottom: 1px solid #333;
+/* =========================
+   PASSWORD
+========================= */
+
+#lockScreen{
+position:fixed;
+inset:0;
+z-index:999999;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#08052e;
+text-align:center;
+padding:20px
 }
 
-header h1 {
-    margin: 0;
-    font-size: 32px;
+.lockBox{
+width:min(430px,95vw);
+padding:45px 30px;
+background:rgba(8,5,46,.96);
+border:1px solid rgba(22,131,255,.55);
+box-shadow:0 0 70px rgba(22,131,255,.2)
 }
 
-header p {
-    color: #aaa;
-    margin-bottom: 0;
+.lockTitle{
+font-size:30px;
+font-weight:bold;
+letter-spacing:4px
 }
 
-#games {
-    width: min(1100px, 94%);
-    margin: 30px auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+.lockSub{
+margin:12px 0 30px;
+font-size:10px;
+letter-spacing:4px;
+color:#75b4ff
 }
 
-.game {
-    background: #151515;
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 25px;
-    text-align: center;
-    cursor: pointer;
-    transition: .15s;
+#passwordInput{
+width:100%;
+padding:15px;
+background:#030218;
+border:1px solid rgba(255,255,255,.2);
+outline:none;
+color:#fff;
+font-size:16px;
+text-align:center
 }
 
-.game:hover {
-    transform: translateY(-3px);
-    border-color: #777;
-    background: #1d1d1d;
+#passwordInput:focus{
+border-color:#1683ff;
+box-shadow:0 0 20px rgba(22,131,255,.2)
 }
 
-.game h2 {
-    margin: 0 0 10px;
+#unlockBtn{
+width:100%;
+margin-top:12px;
+padding:15px;
+border:0;
+background:#1683ff;
+color:#fff;
+font-weight:bold;
+letter-spacing:3px;
+cursor:pointer
 }
 
-.game p {
-    color: #aaa;
-    margin: 0;
+#unlockBtn:hover{background:#006eff}
+
+#error{
+height:18px;
+margin-top:12px;
+font-size:12px;
+color:#ff4d8d
 }
 
-#player {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 1000;
+/* =========================
+   NAV
+========================= */
+
+nav{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:20px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:100;
+background:rgba(8,5,46,.7);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,.08)
 }
 
-#gameFrame {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background: #000;
+.nav-logo{
+font-size:14px;
+letter-spacing:3px;
+font-weight:bold
 }
 
-#close {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 1001;
-    border: 0;
-    border-radius: 8px;
-    padding: 10px 16px;
-    background: #222;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
+.nav-links{
+display:flex;
+gap:25px
 }
 
-#close:hover {
-    background: #444;
+.nav-links a{
+color:#fff;
+text-decoration:none;
+font-size:12px;
+letter-spacing:2px;
+opacity:.7
+}
+
+.nav-links a:hover{
+color:#1683ff;
+opacity:1
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+padding:100px 20px
+}
+
+.hero-content{
+animation:fadeIn 1.5s ease
+}
+
+.title{
+display:inline-block;
+border:2px solid #1683ff;
+padding:4px 7px 5px;
+font-size:clamp(30px,7vw,65px);
+font-weight:500;
+letter-spacing:-2px;
+color:#eaf3ff;
+box-shadow:0 0 30px rgba(22,131,255,.15)
+}
+
+.title span{color:#1683ff}
+
+.subtitle{
+margin-top:15px;
+color:#75b4ff;
+font-size:11px;
+letter-spacing:8px
+}
+
+.scroll{
+position:absolute;
+bottom:30px;
+left:50%;
+transform:translateX(-50%);
+color:rgba(255,255,255,.5);
+font-size:10px;
+letter-spacing:4px;
+animation:bounce 2s infinite
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+min-height:75vh;
+padding:120px 8%;
+position:relative
+}
+
+.section-label{
+color:#1683ff;
+font-size:11px;
+letter-spacing:5px;
+margin-bottom:15px
+}
+
+h2{
+font-size:clamp(35px,6vw,70px);
+margin:0 0 25px;
+letter-spacing:-2px
+}
+
+.description{
+max-width:600px;
+color:#aeb8d4;
+line-height:1.8;
+font-size:16px
+}
+
+/* =========================
+   GAME CARDS
+========================= */
+
+.games{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:55px
+}
+
+.game-card{
+min-height:220px;
+padding:25px;
+border:1px solid rgba(255,255,255,.12);
+background:rgba(255,255,255,.035);
+transition:.35s;
+position:relative;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+justify-content:flex-end
+}
+
+.game-card::before{
+content:"";
+position:absolute;
+width:170px;
+height:170px;
+border-radius:50%;
+filter:blur(65px);
+opacity:.35;
+top:-60px;
+right:-60px;
+background:#006eff
+}
+
+.game-card:nth-child(2)::before{background:#e900ff}
+.game-card:nth-child(3)::before{background:#00e5ff}
+.game-card:nth-child(4)::before{background:#00ff88}
+.game-card:nth-child(5)::before{background:#ff6600}
+.game-card:nth-child(6)::before{background:#9d00ff}
+.game-card:nth-child(7)::before{background:#1683ff}
+.game-card:nth-child(8)::before{background:#ff006e}
+.game-card:nth-child(9)::before{background:#00c8ff}
+.game-card:nth-child(10)::before{background:#ffe600}
+
+.game-card:hover{
+transform:translateY(-9px);
+border-color:#1683ff;
+background:rgba(255,255,255,.07)
+}
+
+.game-card h3{
+position:relative;
+margin:0 0 12px;
+font-size:22px
+}
+
+.game-card p{
+position:relative;
+margin:0 0 20px;
+color:#8994b2;
+font-size:12px
+}
+
+.playButton{
+position:relative;
+width:max-content;
+padding:11px 20px;
+background:rgba(22,131,255,.08);
+border:1px solid #1683ff;
+color:#fff;
+font-size:10px;
+letter-spacing:2px;
+cursor:pointer
+}
+
+.playButton:hover{
+background:#1683ff
+}
+
+/* =========================
+   GAME PLAYER
+========================= */
+
+#gameOverlay{
+display:none;
+position:fixed;
+inset:0;
+z-index:99990;
+background:#000
+}
+
+#gameFrame{
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+border:0;
+background:#000
+}
+
+.gameControls{
+position:absolute;
+top:12px;
+right:12px;
+z-index:99999;
+display:flex;
+gap:8px
+}
+
+.gameControls button{
+padding:11px 16px;
+background:rgba(0,0,0,.85);
+color:#fff;
+border:1px solid #1683ff;
+cursor:pointer;
+font-size:10px;
+letter-spacing:2px
+}
+
+.gameControls button:hover{
+background:#1683ff
+}
+
+/* =========================
+   BIG SECTION
+========================= */
+
+.color-section{
+min-height:90vh;
+display:flex;
+align-items:center;
+background:linear-gradient(
+135deg,
+rgba(0,110,255,.15),
+rgba(233,0,255,.12),
+rgba(0,229,255,.1)
+)
+}
+
+.big-text{
+font-size:clamp(50px,12vw,150px);
+font-weight:bold;
+line-height:.85;
+letter-spacing:-8px;
+max-width:1000px
+}
+
+.blue{color:#1683ff}
+.pink{color:#e900ff}
+
+footer{
+padding:50px 30px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,.1);
+color:#66708d;
+font-size:10px;
+letter-spacing:4px
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes bounce{
+0%,100%{transform:translate(-50%,0)}
+50%{transform:translate(-50%,10px)}
+}
+
+@media(max-width:700px){
+
+nav{padding:18px}
+
+.nav-links{gap:12px}
+
+.nav-links a{
+font-size:9px;
+letter-spacing:1px
+}
+
+section{padding:90px 25px}
+
+.big-text{letter-spacing:-4px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>The Underground</h1>
-    <p>Stay Lowkey</p>
-</header>
+<!-- =========================
+     PASSWORD SCREEN
+========================= -->
 
-<main id="games">
+<div id="lockScreen">
 
-    <div class="game" onclick="openGame('games/ageofwar.html')">
-        <h2>Age of War</h2>
-        <p>Flash game</p>
-    </div>
+<div class="lockBox">
 
-    <div class="game" onclick="openGame('games/timeshooter3.html')">
-        <h2>Time Shooter 3 SWAT</h2>
-        <p>Unity WebGL</p>
-    </div>
+<div class="lockTitle">THE UNDERGROUND</div>
 
-    <div class="game" onclick="openGame('games/ragdollarchers.html')">
-        <h2>Ragdoll Archers</h2>
-        <p>Unity WebGL</p>
-    </div>
+<div class="lockSub">
+AUTHORIZED ACCESS ONLY
+</div>
 
-    <div class="game" onclick="openGame('games/rooftopsnipers2.html')">
-        <h2>Rooftop Snipers 2</h2>
-        <p>Unity WebGL</p>
-    </div>
+<input
+id="passwordInput"
+type="password"
+placeholder="ENTER PASSWORD"
+autocomplete="off"
+>
 
-    <div class="game" onclick="openGame('games/basketballlegends.html')">
-        <h2>Basketball Legends</h2>
-        <p>HTML5</p>
-    </div>
+<button id="unlockBtn">
+ENTER
+</button>
 
-    <div class="game" onclick="openGame('games/granny.html')">
-        <h2>Granny</h2>
-        <p>Unity WebGL</p>
-    </div>
+<div id="error"></div>
 
-    <div class="game" onclick="openGame('games/geometrydash.html')">
-        <h2>Geometry Dash Lite</h2>
-        <p>Unity WebGL</p>
-    </div>
+</div>
 
-    <div class="game" onclick="openGame('games/clidlebreakout.html')">
-        <h2>Clidle Breakout</h2>
-        <p>HTML5 Canvas</p>
-    </div>
+</div>
 
-    <div class="game" onclick="openGame('games/burgerandfrights.html')">
-        <h2>Burger & Frights</h2>
-        <p>Three.js</p>
-    </div>
 
-</main>
+<!-- =========================
+     GAME PLAYER
+========================= -->
 
-<div id="player">
-    <button id="close" onclick="closeGame()">✕ Close Game</button>
-    <iframe id="gameFrame" allow="fullscreen; autoplay; gamepad; pointer-lock"></iframe>
+<div id="gameOverlay">
+
+<iframe
+id="gameFrame"
+allow="fullscreen; autoplay; gamepad; pointer-lock"
+allowfullscreen>
+</iframe>
+
+<div class="gameControls">
+
+<button onclick="fullscreenGame()">
+FULLSCREEN
+</button>
+
+<button onclick="closeGame()">
+CLOSE
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav>
+
+<div class="nav-logo">
+UNDERGROUND
+</div>
+
+<div class="nav-links">
+<a href="#home">HOME</a>
+<a href="#about">ABOUT</a>
+<a href="#explore">GAMES</a>
+</div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero" id="home">
+
+<div class="hero-content">
+
+<div class="title">
+<span>THE</span> UNDERGROUND
+</div>
+
+<div class="subtitle">
+STAY LOWKEY
+</div>
+
+</div>
+
+<div class="scroll">
+SCROLL ↓
+</div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+<div class="section-label">
+01 — WELCOME
+</div>
+
+<h2>
+GO<br>
+DEEPER.
+</h2>
+
+<p class="description">
+Welcome to The Underground. A place for things that
+don't belong on the surface. Explore, discover, and
+stay lowkey.
+</p>
+
+</section>
+
+
+<!-- =========================
+     GAMES
+========================= -->
+
+<section id="explore">
+
+<div class="section-label">
+02 — GAME STASH
+</div>
+
+<h2>
+PICK<br>
+YOUR GAME.
+</h2>
+
+<div class="games">
+
+
+<!-- AGE OF WAR -->
+
+<div class="game-card">
+
+<h3>Age of War</h3>
+
+<p>
+Classic strategy game.
+</p>
+
+<button class="playButton"
+onclick="openGame('ageofwar')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- TIME SHOOTER 3 -->
+
+<div class="game-card">
+
+<h3>Time Shooter 3 SWAT</h3>
+
+<p>
+Slow-motion tactical shooter.
+</p>
+
+<button class="playButton"
+onclick="openGame('timeshooter')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- RAGDOLL ARCHERS -->
+
+<div class="game-card">
+
+<h3>Ragdoll Archers</h3>
+
+<p>
+Physics-based archery.
+</p>
+
+<button class="playButton"
+onclick="openGame('ragdoll')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- ROOFTOP SNIPERS -->
+
+<div class="game-card">
+
+<h3>Rooftop Snipers 2</h3>
+
+<p>
+Fast rooftop battles.
+</p>
+
+<button class="playButton"
+onclick="openGame('rooftop')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- BASKETBALL LEGENDS -->
+
+<div class="game-card">
+
+<h3>Basketball Legends</h3>
+
+<p>
+Arcade basketball.
+</p>
+
+<button class="playButton"
+onclick="openGame('basketball')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- GRANNY -->
+
+<div class="game-card">
+
+<h3>Granny</h3>
+
+<p>
+Escape before she finds you.
+</p>
+
+<button class="playButton"
+onclick="openGame('granny')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- GEOMETRY DASH -->
+
+<div class="game-card">
+
+<h3>Geometry Dash Lite</h3>
+
+<p>
+Jump, fly and survive.
+</p>
+
+<button class="playButton"
+onclick="openGame('geometry')">
+PLAY GAME
+</button>
+
+</div>
+
+
+<!-- GAME STASH -->
+
+<div class="game-card">
+
+<h3>Game Stash</h3>
+
+<p>
+More games and resources.
+</p>
+
+<button class="playButton"
+onclick="openGame('stash')">
+OPEN STASH
+</button>
+
+</div>
+
+
+<!-- DUCK -->
+
+<div class="game-card">
+
+<h3>Duck</h3>
+
+<p>
+Game collection.
+</p>
+
+<button class="playButton"
+onclick="openGame('duck')">
+OPEN
+</button>
+
+</div>
+
+
+<!-- MSN -->
+
+<div class="game-card">
+
+<h3>MSN Games</h3>
+
+<p>
+More browser games.
+</p>
+
+<button class="playButton"
+onclick="openGame('msn')">
+OPEN
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     BIG AREA
+========================= -->
+
+<section class="color-section">
+
+<div class="big-text">
+
+THIS IS<br>
+
+<span class="blue">THE</span>
+
+<span class="pink">
+UNDERGROUND.
+</span>
+
+</div>
+
+</section>
+
+
+<footer>
+THE UNDERGROUND — STAY LOWKEY
+</footer>
+
+
+<script>
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+const PASSWORD="Stay Lowkey";
+
+const lockScreen=document.getElementById("lockScreen");
+const passwordInput=document.getElementById("passwordInput");
+const unlockBtn=document.getElementById("unlockBtn");
+const error=document.getElementById("error");
+
+function unlock(){
+
+if(passwordInput.value===PASSWORD){
+
+lockScreen.style.opacity="0";
+lockScreen.style.transition="opacity .4s";
+
+setTimeout(()=>{
+lockScreen.style.display="none";
+},400);
+
+}else{
+
+error.textContent="ACCESS DENIED";
+passwordInput.value="";
+
+setTimeout(()=>{
+error.textContent="";
+},1500);
+
+}
+
+}
+
+unlockBtn.onclick=unlock;
+
+passwordInput.addEventListener("keydown",e=>{
+if(e.key==="Enter") unlock();
+});
+
+passwordInput.focus();
+
+
+/* =========================================================
+   GAME WINDOW
+========================================================= */
+
+const overlay=document.getElementById("gameOverlay");
+const frame=document.getElementById("gameFrame");
+
+
+/*
+   Each game below keeps the ORIGINAL external assets
+   you supplied.
+
+   The launcher puts the game into an iframe so the
+   Underground page itself stays intact.
+*/
+
+const games={};
+
+
+/* =========================================================
+   AGE OF WAR
+========================================================= */
+
+games.ageofwar=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<script src="https://cdn.jsdelivr.net/npm/@ruffle-rs/ruffle@0.2.0-nightly.2025.10.2/ruffle.min.js">
+</script>
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+background:#000;
+overflow:hidden
+}
+
+#game{
+width:100%;
+height:100%
+}
+
+ruffle-player{
+width:100%;
+height:100%;
+display:block
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="game"></div>
+
+<script>
+
+window.addEventListener("load",function(){
+
+const ruffle=window.RufflePlayer.newest();
+
+const player=ruffle.createPlayer();
+
+player.style.width="100%";
+player.style.height="100%";
+
+document.getElementById("game").appendChild(player);
+
+player.load(
+"https://cdn.jsdelivr.net/gh/artyomriseofnations/gs-swf@6ed8a67a935c49240d2a6dc1e8d4fc8466a28aca/Age%20of%20War.swf"
+);
+
+});
+
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   TIME SHOOTER 3 SWAT
+========================================================= */
+
+games.timeshooter=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+
+#unity-container{
+position:absolute;
+width:100%;
+height:100%;
+left:0;
+top:0
+}
+
+#unity-canvas{
+width:100%;
+height:100%;
+display:block
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="unity-container">
+
+<canvas id="unity-canvas"></canvas>
+
 </div>
 
 <script>
-function openGame(path) {
-    const player = document.getElementById("player");
-    const frame = document.getElementById("gameFrame");
 
-    frame.src = path;
-    player.style.display = "block";
+const buildUrl=
+"https://cdn.jsdelivr.net/gh/mistirk/google@eebffdf79a14f6e01e153d5cd4bed23c432874fb/version/time-s3";
+
+const loaderUrl=buildUrl+"/ts3.loader.js";
+
+const config={
+
+dataUrl:buildUrl+"/ts3.data",
+
+frameworkUrl:buildUrl+"/ts3.framework.js",
+
+codeUrl:buildUrl+"/ts3.wasm",
+
+streamingAssetsUrl:"StreamingAssets",
+
+companyName:"GoGoMan",
+
+productName:"Time Shooter SWAT",
+
+productVersion:"0.03"
+
+};
+
+const canvas=document.querySelector("#unity-canvas");
+
+const script=document.createElement("script");
+
+script.src=loaderUrl;
+
+script.onload=()=>{
+
+createUnityInstance(
+canvas,
+config,
+progress=>{}
+).then(instance=>{
+
+window.unityInstance=instance;
+
+}).catch(err=>{
+
+document.body.innerHTML=
+"<pre style='color:white'>"+err+"</pre>";
+
+});
+
+};
+
+document.body.appendChild(script);
+
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   RAGDOLL ARCHERS
+========================================================= */
+
+games.ragdoll=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
 }
 
-function closeGame() {
-    const frame = document.getElementById("gameFrame");
-
-    frame.src = "about:blank";
-    document.getElementById("player").style.display = "none";
+#unity-container{
+position:absolute;
+width:100%;
+height:100%
 }
+
+#unity-canvas{
+width:100%;
+height:100%
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="unity-container">
+
+<canvas id="unity-canvas"></canvas>
+
+</div>
+
+<script>
+
+const buildUrl=
+"https://cdn.jsdelivr.net/gh/bubbls/ruffle@04dd5345a30d6ebf4b0e2cc385568750cd56ed5a";
+
+const config={
+
+dataUrl:
+buildUrl+
+"/6697b6deba8b617c67b69c55dcd07cb1.data.unityweb",
+
+frameworkUrl:
+buildUrl+
+"/0be3c3ee7115b26e1ae28e643afdf1f2.js.unityweb",
+
+codeUrl:
+buildUrl+
+"/b3397c29f6878557c1c614cbf9e196ea.wasm.unityweb",
+
+streamingAssetsUrl:"StreamingAssets",
+
+companyName:"Ericetto",
+
+productName:"Ragdoll Archers",
+
+productVersion:"0.1"
+
+};
+
+const script=document.createElement("script");
+
+script.src=
+"https://cdn.jsdelivr.net/gh/bubbls/ruffle@7117cc5006472d782b65d96abd375597d6273242/v11121212.js";
+
+script.onload=()=>{
+
+createUnityInstance(
+document.querySelector("#unity-canvas"),
+config,
+()=>{}
+).then(instance=>{
+
+window.unityInstance=instance;
+
+}).catch(err=>{
+
+document.body.innerHTML=
+"<pre style='color:white'>"+err+"</pre>";
+
+});
+
+};
+
+document.body.appendChild(script);
+
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   ROOFTOP SNIPERS 2
+========================================================= */
+
+games.rooftop=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script>
+
+window.config={
+
+loader:"unity",
+
+debug:false,
+
+maxRatio:16/9,
+
+minRatio:9/16,
+
+title:"Rooftop Snipers 2",
+
+thumbnail:"895b299e7e49558ca383b23648314860.png",
+
+numScreenshots:8,
+
+unityVersion:"2019.1.5f1",
+
+unityWebglBuildUrl:
+"Build/RooftopSnipers2.json",
+
+fileSize:27,
+
+cachedDecompressedFileSizes:{
+
+"RooftopSnipers2.data.unityweb":9563147,
+
+"RooftopSnipers2.wasm.code.unityweb":17055668,
+
+"RooftopSnipers2.wasm.framework.unityweb":475014
+
+}
+
+};
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets/roof%20snipe%202/sdkv3/master-loader.js">
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   BASKETBALL LEGENDS
+========================================================= */
+
+games.basketball=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+background:#000;
+overflow:hidden
+}
+
+iframe{
+width:100%;
+height:100%;
+border:0
+}
+
+</style>
+
+</head>
+
+<body>
+
+<iframe
+src="https://cdn.jsdelivr.net/gh/faralong/test@main/basketballlegendss.html">
+</iframe>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   GRANNY
+========================================================= */
+
+games.granny=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+
+#unity-container{
+position:absolute;
+width:100%;
+height:100%
+}
+
+#unity-canvas{
+width:100%;
+height:100%
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="unity-container">
+
+<canvas id="unity-canvas"></canvas>
+
+</div>
+
+<script>
+
+const buildUrl=
+"https://cdn.jsdelivr.net/gh/gru6nny/ohd@main/Build";
+
+const loaderUrl=buildUrl+"/Granny.loader.js";
+
+function mergeParts(prefix,total,ext){
+
+return Promise.all(
+
+Array.from(
+{length:total},
+(_,i)=>
+
+fetch(
+buildUrl+
+"/"+
+prefix+
+"_part"+
+(i+1)+
+"."+
+ext
+).then(r=>r.arrayBuffer())
+
+)
+
+).then(parts=>{
+
+let size=parts.reduce(
+(a,b)=>a+b.byteLength,0
+);
+
+let output=new Uint8Array(size);
+
+let offset=0;
+
+parts.forEach(part=>{
+
+output.set(
+new Uint8Array(part),
+offset
+);
+
+offset+=part.byteLength;
+
+});
+
+return output;
+
+});
+
+}
+
+async function start(){
+
+try{
+
+const data=await mergeParts(
+"Granny",
+2,
+"data"
+);
+
+const wasm=await mergeParts(
+"Granny",
+2,
+"wasm"
+);
+
+const dataURL=
+URL.createObjectURL(
+new Blob(
+[data],
+{type:"application/octet-stream"}
+)
+);
+
+const wasmURL=
+URL.createObjectURL(
+new Blob(
+[wasm],
+{type:"application/octet-stream"}
+)
+);
+
+const config={
+
+dataUrl:dataURL,
+
+frameworkUrl:
+buildUrl+"/Granny.framework.js",
+
+codeUrl:wasmURL,
+
+streamingAssetsUrl:
+"https://cdn.jsdelivr.net/gh/gru6nny/ohd@main/StreamingAssets",
+
+companyName:"Anastasia Kazantseva",
+
+productName:"Granny",
+
+productVersion:"1.0"
+
+};
+
+const script=document.createElement("script");
+
+script.src=loaderUrl;
+
+script.onload=()=>{
+
+createUnityInstance(
+document.querySelector("#unity-canvas"),
+config,
+()=>{}
+).then(instance=>{
+
+window.unityInstance=instance;
+
+}).catch(err=>{
+
+document.body.innerHTML=
+"<pre style='color:white'>"+err+"</pre>";
+
+});
+
+};
+
+document.body.appendChild(script);
+
+}catch(e){
+
+document.body.innerHTML=
+"<pre style='color:white'>"+e+"</pre>";
+
+}
+
+}
+
+start();
+
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   GEOMETRY DASH LITE
+========================================================= */
+
+games.geometry=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<style>
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+
+#gameContainer{
+width:100vw;
+height:100vh
+}
+
+canvas{
+width:100%;
+height:100%;
+display:block
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="gameContainer"></div>
+
+<script>
+
+window.fileMergerConfig={
+
+files:[
+
+{
+name:"GeometryDashLite.data.unityweb",
+parts:2
+},
+
+{
+name:"GeometryDashLite.wasm.code.unityweb",
+parts:1
+},
+
+{
+name:"GeometryDashLite.wasm.framework.unityweb",
+parts:1
+}
+
+],
+
+basePath:
+"https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/gdlite/Build/",
+
+debug:true
+
+};
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@ac5cdfc0042aca584e72619375b4aca948a9243c/merge.js">
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/gdlite/Build/UnityLoader.js">
+</script>
+
+<script>
+
+var gameInstance=
+UnityLoader.instantiate(
+"gameContainer",
+"https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@main/gdlite/Build/GeometryDashLite.json"
+);
+
+</script>
+
+</body>
+
+</html>
+`;
+
+
+/* =========================================================
+   EXTERNAL COLLECTIONS
+========================================================= */
+
+games.stash=`
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+iframe{
+width:100%;
+height:100%;
+border:0
+}
+</style>
+</head>
+<body>
+<iframe
+src="https://sites.google.com/cusdstudent.com/the-game-stash/home">
+</iframe>
+</body>
+</html>
+`;
+
+
+games.duck=`
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+iframe{
+width:100%;
+height:100%;
+border:0
+}
+</style>
+</head>
+<body>
+<iframe src="https://duck.studymenes.com/"></iframe>
+</body>
+</html>
+`;
+
+
+games.msn=`
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000
+}
+iframe{
+width:100%;
+height:100%;
+border:0
+}
+</style>
+</head>
+<body>
+<iframe src="https://www.msn.com/en-xl/play"></iframe>
+</body>
+</html>
+`;
+
+
+/* =========================================================
+   OPEN GAME
+========================================================= */
+
+function openGame(name){
+
+const html=games[name];
+
+if(!html)return;
+
+frame.srcdoc=html;
+
+overlay.style.display="block";
+
+document.body.style.overflow="hidden";
+
+}
+
+
+/* =========================================================
+   CLOSE GAME
+========================================================= */
+
+function closeGame(){
+
+frame.srcdoc="";
+
+overlay.style.display="none";
+
+document.body.style.overflow="";
+
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+function fullscreenGame(){
+
+if(overlay.requestFullscreen){
+
+overlay.requestFullscreen();
+
+}else if(frame.requestFullscreen){
+
+frame.requestFullscreen();
+
+}
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener("keydown",function(e){
+
+if(e.key==="Escape"){
+
+if(overlay.style.display==="block"){
+
+closeGame();
+
+}
+
+}
+
+});
+
 </script>
 
 </body>
