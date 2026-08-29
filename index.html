@@ -6,442 +6,452 @@
 <title>THE UNDERGROUND</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+*{
+    box-sizing:border-box;
+    scroll-behavior:smooth;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
+html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
 }
 
-body {
-    background: #08052e;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
+body{
+    background:#08052e;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
 }
 
 /* =========================
    PASSWORD SCREEN
 ========================= */
 
-#lockScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #08052e;
-    padding: 20px;
+#lockScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#08052e;
+    padding:20px;
 }
 
-#lockScreen::before {
-    content: "";
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    background: #006eff;
-    filter: blur(180px);
-    opacity: .18;
-    top: -200px;
-    left: -200px;
+#lockScreen:before{
+    content:"";
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:#006eff;
+    filter:blur(180px);
+    opacity:.18;
+    top:-250px;
+    left:-200px;
+    pointer-events:none;
 }
 
-#lockScreen::after {
-    content: "";
-    position: absolute;
-    width: 450px;
-    height: 450px;
-    background: #e900ff;
-    filter: blur(180px);
-    opacity: .15;
-    right: -200px;
-    bottom: -200px;
+#lockScreen:after{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:#e900ff;
+    filter:blur(180px);
+    opacity:.15;
+    right:-200px;
+    bottom:-200px;
+    pointer-events:none;
 }
 
-.lock-box {
-    position: relative;
-    z-index: 2;
-    width: min(420px, 100%);
-    padding: 45px 35px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.045);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 0 50px rgba(0,0,0,.4);
+.lock-box{
+    position:relative;
+    z-index:2;
+    width:min(440px,100%);
+    padding:45px 35px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.045);
+    backdrop-filter:blur(18px);
+    box-shadow:0 0 50px rgba(0,0,0,.45);
 }
 
-.lock-title {
-    font-size: 28px;
-    letter-spacing: 4px;
-    margin-bottom: 8px;
+.lock-title{
+    display:inline-block;
+    border:2px solid #1683ff;
+    padding:5px 9px;
+    font-size:clamp(26px,7vw,48px);
+    letter-spacing:-2px;
 }
 
-.lock-subtitle {
-    color: #75b4ff;
-    font-size: 10px;
-    letter-spacing: 4px;
-    margin-bottom: 30px;
+.lock-title span{
+    color:#1683ff;
 }
 
-#passwordInput {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid rgba(255,255,255,.2);
-    background: rgba(0,0,0,.35);
-    color: white;
-    outline: none;
-    text-align: center;
-    font-size: 15px;
+.lock-subtitle{
+    margin-top:14px;
+    margin-bottom:30px;
+    color:#75b4ff;
+    font-size:10px;
+    letter-spacing:5px;
 }
 
-#passwordInput:focus {
-    border-color: #1683ff;
+#passwordInput,
+#recoveryInput{
+    width:100%;
+    padding:14px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(0,0,0,.35);
+    color:white;
+    outline:none;
+    text-align:center;
+    font-size:15px;
 }
 
-#enterButton {
-    width: 100%;
-    margin-top: 12px;
-    padding: 14px;
-    border: 1px solid #1683ff;
-    background: #1683ff;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    letter-spacing: 2px;
+#passwordInput:focus,
+#recoveryInput:focus{
+    border-color:#1683ff;
 }
 
-#enterButton:hover {
-    background: #006eff;
+#enterButton,
+#recoveryButton{
+    width:100%;
+    padding:14px;
+    margin-top:12px;
+    border:1px solid #1683ff;
+    background:#1683ff;
+    color:white;
+    font-weight:bold;
+    letter-spacing:2px;
+    cursor:pointer;
 }
 
-#message {
-    min-height: 20px;
-    margin-top: 15px;
-    color: #ff6b8a;
-    font-size: 12px;
+#enterButton:hover,
+#recoveryButton:hover{
+    background:#006eff;
 }
 
-#attempts {
-    color: #77809c;
-    font-size: 10px;
-    letter-spacing: 2px;
+#message{
+    min-height:20px;
+    margin-top:15px;
+    color:#ff6688;
+    font-size:12px;
 }
 
-/* OWNER DOT */
-
-#ownerDot {
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.15);
-    z-index: 100000;
-    cursor: pointer;
+#attempts{
+    color:#66708d;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-top:5px;
 }
 
-#ownerDot:hover {
-    background: rgba(22,131,255,.8);
+#lockedMessage{
+    display:none;
+    margin-top:18px;
+    color:#ff4d6d;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
 }
 
-/* RECOVERY */
-
-#recoveryBox {
-    display: none;
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,.1);
+#recoveryBox{
+    display:none;
+    margin-top:28px;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,.1);
 }
 
-#recoveryInput {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0,0,0,.4);
-    color: white;
-    border: 1px solid rgba(255,255,255,.2);
-    outline: none;
-    text-align: center;
+.recovery-title{
+    color:#75b4ff;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-bottom:12px;
 }
 
-#recoveryButton {
-    width: 100%;
-    margin-top: 8px;
-    padding: 12px;
-    background: transparent;
-    border: 1px solid #1683ff;
-    color: white;
-    cursor: pointer;
+#recoveryMessage{
+    min-height:18px;
+    margin-top:10px;
+    color:#75b4ff;
+    font-size:11px;
 }
 
-#recoveryMessage {
-    font-size: 11px;
-    margin-top: 10px;
-    color: #75b4ff;
+/* =========================
+   OWNER DOT
+========================= */
+
+#ownerDot{
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    width:9px;
+    height:9px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.16);
+    cursor:pointer;
+    z-index:1000000;
+}
+
+#ownerDot:hover{
+    background:rgba(22,131,255,.8);
+    box-shadow:0 0 12px rgba(22,131,255,.6);
 }
 
 /* =========================
    WEBSITE
 ========================= */
 
-#website {
-    display: none;
+#website{
+    display:none;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: #006eff;
-    filter: blur(180px);
-    opacity: .18;
-    top: -250px;
-    left: -200px;
-    z-index: -1;
+body::before{
+    content:"";
+    position:fixed;
+    width:600px;
+    height:600px;
+    background:#006eff;
+    filter:blur(180px);
+    opacity:.18;
+    top:-250px;
+    left:-200px;
+    z-index:-1;
+    pointer-events:none;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #e900ff;
-    filter: blur(180px);
-    opacity: .15;
-    right: -200px;
-    bottom: -200px;
-    z-index: -1;
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#e900ff;
+    filter:blur(180px);
+    opacity:.15;
+    right:-200px;
+    bottom:-200px;
+    z-index:-1;
+    pointer-events:none;
 }
 
 /* NAV */
 
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-    background: rgba(8,5,46,.65);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,.08);
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:100;
+    background:rgba(8,5,46,.65);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.nav-logo {
-    font-size: 14px;
-    letter-spacing: 3px;
-    font-weight: bold;
+.nav-logo{
+    font-size:14px;
+    letter-spacing:3px;
+    font-weight:bold;
 }
 
-.nav-links {
-    display: flex;
-    gap: 25px;
+.nav-links{
+    display:flex;
+    gap:25px;
 }
 
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 2px;
-    opacity: .7;
-    transition: .3s;
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:12px;
+    letter-spacing:2px;
+    opacity:.7;
+    transition:.3s;
 }
 
-.nav-links a:hover {
-    color: #1c8cff;
-    opacity: 1;
+.nav-links a:hover{
+    color:#1c8cff;
+    opacity:1;
 }
 
 /* HERO */
 
-.hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 100px 20px;
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    position:relative;
+    padding:100px 20px;
 }
 
-.hero-content {
-    animation: fadeIn 1.5s ease;
+.hero-content{
+    animation:fadeIn 1.5s ease;
 }
 
-.title {
-    display: inline-block;
-    border: 2px solid #1683ff;
-    padding: 4px 7px 5px;
-    font-size: clamp(30px,7vw,65px);
-    font-weight: 500;
-    letter-spacing: -2px;
-    color: #eaf3ff;
-    box-shadow: 0 0 30px rgba(22,131,255,.15);
+.title{
+    display:inline-block;
+    border:2px solid #1683ff;
+    padding:4px 7px 5px;
+    font-size:clamp(30px,7vw,65px);
+    font-weight:500;
+    letter-spacing:-2px;
+    color:#eaf3ff;
+    box-shadow:0 0 30px rgba(22,131,255,.15);
 }
 
-.title span {
-    color: #1683ff;
+.title span{
+    color:#1683ff;
 }
 
-.subtitle {
-    margin-top: 15px;
-    color: #75b4ff;
-    font-size: 11px;
-    letter-spacing: 8px;
+.subtitle{
+    margin-top:15px;
+    color:#75b4ff;
+    font-size:11px;
+    letter-spacing:8px;
 }
 
-.scroll {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255,255,255,.5);
-    font-size: 10px;
-    letter-spacing: 4px;
-    animation: bounce 2s infinite;
+.scroll{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    color:rgba(255,255,255,.5);
+    font-size:10px;
+    letter-spacing:4px;
+    animation:bounce 2s infinite;
 }
 
-/* SECTIONS */
+/* GAMES */
 
-section {
-    min-height: 75vh;
-    padding: 120px 8%;
-    position: relative;
+section{
+    min-height:75vh;
+    padding:120px 8%;
+    position:relative;
 }
 
-.section-label {
-    color: #1683ff;
-    font-size: 11px;
-    letter-spacing: 5px;
-    margin-bottom: 15px;
+.games-section{
+    min-height:100vh;
 }
 
-h2 {
-    font-size: clamp(35px,6vw,70px);
-    margin: 0 0 25px;
-    letter-spacing: -2px;
+.section-label{
+    color:#1683ff;
+    font-size:11px;
+    letter-spacing:5px;
+    margin-bottom:15px;
 }
 
-/* GAME SECTION */
-
-.games-section {
-    min-height: 100vh;
+h2{
+    font-size:clamp(35px,6vw,70px);
+    margin:0 0 25px;
+    letter-spacing:-2px;
 }
 
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 20px;
-    margin-top: 60px;
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-top:60px;
 }
 
-.game-card {
-    min-height: 230px;
-    padding: 25px;
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(255,255,255,.035);
-    transition: .4s;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
+.game-card{
+    min-height:230px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.035);
+    transition:.4s;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
 }
 
-.game-card::before {
-    content: "";
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: .4;
+.game-card:before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    filter:blur(60px);
+    opacity:.4;
 }
 
-.game-card:nth-child(3n+1)::before {
-    background: #006eff;
-    top: -50px;
-    right: -50px;
+.game-card:nth-child(3n+1):before{
+    background:#006eff;
+    top:-50px;
+    right:-50px;
 }
 
-.game-card:nth-child(3n+2)::before {
-    background: #e900ff;
-    bottom: -50px;
-    left: -50px;
+.game-card:nth-child(3n+2):before{
+    background:#e900ff;
+    bottom:-50px;
+    left:-50px;
 }
 
-.game-card:nth-child(3n)::before {
-    background: #00e5ff;
-    top: -50px;
-    left: -50px;
+.game-card:nth-child(3n):before{
+    background:#00e5ff;
+    top:-50px;
+    left:-50px;
 }
 
-.game-card:hover {
-    transform: translateY(-10px);
-    border-color: #1683ff;
-    background: rgba(255,255,255,.07);
+.game-card:hover{
+    transform:translateY(-10px);
+    border-color:#1683ff;
+    background:rgba(255,255,255,.07);
 }
 
-.game-card h3 {
-    position: relative;
-    font-size: 22px;
-    margin-top: 100px;
-    margin-bottom: 8px;
+.game-card h3{
+    position:relative;
+    font-size:22px;
+    margin-top:100px;
+    margin-bottom:8px;
 }
 
-.game-card p {
-    position: relative;
-    color: #8994b1;
-    font-size: 11px;
-    letter-spacing: 1px;
+.game-card p{
+    position:relative;
+    color:#8994b1;
+    font-size:11px;
+    letter-spacing:1px;
 }
 
 /* GAME LAUNCHER */
 
-#gameLauncher {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-    background: #000;
+#gameLauncher{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:#000;
 }
 
-#gameFrame {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background: #000;
+#gameFrame{
+    width:100%;
+    height:100%;
+    border:0;
+    background:#000;
 }
 
-#closeGame {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 10;
-    padding: 10px 16px;
-    background: rgba(0,0,0,.7);
-    border: 1px solid rgba(255,255,255,.3);
-    color: white;
-    cursor: pointer;
+#closeGame{
+    position:absolute;
+    top:15px;
+    right:15px;
+    z-index:10;
+    padding:10px 16px;
+    background:rgba(0,0,0,.75);
+    border:1px solid rgba(255,255,255,.3);
+    color:white;
+    cursor:pointer;
 }
 
-#closeGame:hover {
-    border-color: #1683ff;
-}
+/* BIG AREA */
 
-/* BIG SECTION */
-
-.color-section {
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
+.color-section{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
     background:
         linear-gradient(
             135deg,
@@ -451,84 +461,82 @@ h2 {
         );
 }
 
-.big-text {
-    font-size: clamp(50px,12vw,150px);
-    font-weight: bold;
-    line-height: .85;
-    letter-spacing: -8px;
-    max-width: 1000px;
+.big-text{
+    font-size:clamp(50px,12vw,150px);
+    font-weight:bold;
+    line-height:.85;
+    letter-spacing:-8px;
+    max-width:1000px;
 }
 
-.blue {
-    color: #1683ff;
+.blue{
+    color:#1683ff;
 }
 
-.pink {
-    color: #e900ff;
+.pink{
+    color:#e900ff;
 }
 
 /* FOOTER */
 
-footer {
-    padding: 50px 30px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,.1);
-    color: #66708d;
-    font-size: 10px;
-    letter-spacing: 4px;
+footer{
+    padding:50px 30px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.1);
+    color:#66708d;
+    font-size:10px;
+    letter-spacing:4px;
 }
 
 /* ANIMATIONS */
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
     }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 }
 
-@keyframes bounce {
-    0%,100% {
-        transform: translate(-50%,0);
+@keyframes bounce{
+    0%,100%{
+        transform:translate(-50%,0);
     }
-
-    50% {
-        transform: translate(-50%,10px);
+    50%{
+        transform:translate(-50%,10px);
     }
 }
 
 /* MOBILE */
 
-@media(max-width:700px) {
+@media(max-width:700px){
 
-    nav {
-        padding: 18px;
+    nav{
+        padding:18px;
     }
 
-    .nav-links {
-        gap: 12px;
+    .nav-links{
+        gap:12px;
     }
 
-    .nav-links a {
-        font-size: 9px;
-        letter-spacing: 1px;
+    .nav-links a{
+        font-size:9px;
+        letter-spacing:1px;
     }
 
-    section {
-        padding: 90px 25px;
+    section{
+        padding:90px 25px;
     }
 
-    .games-grid {
-        grid-template-columns: 1fr;
+    .games-grid{
+        grid-template-columns:1fr;
     }
 
-    .big-text {
-        letter-spacing: -4px;
+    .big-text{
+        letter-spacing:-4px;
     }
 }
 </style>
@@ -537,7 +545,7 @@ footer {
 <body>
 
 <!-- =========================
-     PASSWORD SCREEN
+     PASSWORD
 ========================= -->
 
 <div id="lockScreen">
@@ -545,7 +553,7 @@ footer {
     <div class="lock-box">
 
         <div class="lock-title">
-            THE UNDERGROUND
+            <span>THE</span> UNDERGROUND
         </div>
 
         <div class="lock-subtitle">
@@ -569,19 +577,26 @@ footer {
             3 ATTEMPTS REMAINING
         </div>
 
-        <!-- OWNER RECOVERY -->
+        <div id="lockedMessage">
+            ACCESS LOCKED
+        </div>
 
+        <!-- RECOVERY BOX -->
         <div id="recoveryBox">
+
+            <div class="recovery-title">
+                OWNER RECOVERY
+            </div>
 
             <input
                 id="recoveryInput"
                 type="password"
-                placeholder="OWNER RECOVERY PASSWORD"
+                placeholder="RECOVERY PASSWORD"
                 autocomplete="off"
             >
 
             <button id="recoveryButton">
-                OWNER RECOVERY
+                RECOVER ACCESS
             </button>
 
             <div id="recoveryMessage"></div>
@@ -592,9 +607,14 @@ footer {
 
 </div>
 
-<!-- OWNER DOT -->
 
-<div id="ownerDot" title="Owner"></div>
+<!-- OWNER RECOVERY DOT -->
+
+<button
+    id="ownerDot"
+    title="Owner Recovery"
+    aria-label="Owner Recovery">
+</button>
 
 
 <!-- =========================
@@ -617,8 +637,6 @@ footer {
 </nav>
 
 
-<!-- HERO -->
-
 <section class="hero" id="home">
 
     <div class="hero-content">
@@ -640,8 +658,6 @@ footer {
 </section>
 
 
-<!-- GAMES -->
-
 <section class="games-section" id="explore">
 
     <div class="section-label">
@@ -655,8 +671,6 @@ footer {
 
     <div class="games-grid">
 
-        <!-- GAME 1 -->
-
         <div
             class="game-card"
             data-game="games/ageofwar.html"
@@ -664,9 +678,6 @@ footer {
             <h3>AGE OF WAR</h3>
             <p>CLICK TO PLAY</p>
         </div>
-
-
-        <!-- GAME 2 -->
 
         <div
             class="game-card"
@@ -676,9 +687,6 @@ footer {
             <p>CLICK TO PLAY</p>
         </div>
 
-
-        <!-- GAME 3 -->
-
         <div
             class="game-card"
             data-game="games/ragdollarchers.html"
@@ -686,9 +694,6 @@ footer {
             <h3>RAGDOLL ARCHERS</h3>
             <p>CLICK TO PLAY</p>
         </div>
-
-
-        <!-- GAME 4 -->
 
         <div
             class="game-card"
@@ -698,9 +703,6 @@ footer {
             <p>CLICK TO PLAY</p>
         </div>
 
-
-        <!-- GAME 5 -->
-
         <div
             class="game-card"
             data-game="games/basketballlegends.html"
@@ -708,9 +710,6 @@ footer {
             <h3>BASKETBALL LEGENDS</h3>
             <p>CLICK TO PLAY</p>
         </div>
-
-
-        <!-- GAME 6 -->
 
         <div
             class="game-card"
@@ -720,9 +719,6 @@ footer {
             <p>CLICK TO PLAY</p>
         </div>
 
-
-        <!-- GAME 7 -->
-
         <div
             class="game-card"
             data-game="games/geometrydash.html"
@@ -731,42 +727,17 @@ footer {
             <p>CLICK TO PLAY</p>
         </div>
 
-
-        <!-- ADD MORE GAMES BELOW -->
-
-        <div
-            class="game-card"
-            data-game="games/game8.html"
-        >
-            <h3>COMING SOON</h3>
-            <p>CLICK TO PLAY</p>
-        </div>
-
-
-        <div
-            class="game-card"
-            data-game="games/game9.html"
-        >
-            <h3>COMING SOON</h3>
-            <p>CLICK TO PLAY</p>
-        </div>
-
     </div>
 
 </section>
 
 
-<!-- BIG COLOR AREA -->
-
 <section class="color-section">
 
     <div class="big-text">
-
         THIS IS<br>
-
         <span class="blue">THE</span>
         <span class="pink">UNDERGROUND.</span>
-
     </div>
 
 </section>
@@ -780,7 +751,7 @@ footer {
 
 
 <!-- =========================
-     GAME LAUNCHER
+     GAME WINDOW
 ========================= -->
 
 <div id="gameLauncher">
@@ -793,8 +764,8 @@ footer {
         id="gameFrame"
         src="about:blank"
         allow="fullscreen; autoplay; gamepad; pointer-lock"
-        allowfullscreen
-    ></iframe>
+        allowfullscreen>
+    </iframe>
 
 </div>
 
@@ -802,53 +773,99 @@ footer {
 <script>
 
 /* =========================
-   PASSWORD SYSTEM
+   PASSWORD SETTINGS
 ========================= */
 
-const PASSWORD = "Stay Lowkey";
+const NORMAL_PASSWORD = "Stay Lowkey";
+
+/*
+   OWNER RECOVERY PASSWORD
+*/
 const RECOVERY_PASSWORD = "grant";
 
-const lockScreen = document.getElementById("lockScreen");
-const website = document.getElementById("website");
 
-const passwordInput = document.getElementById("passwordInput");
-const enterButton = document.getElementById("enterButton");
+/* =========================
+   ELEMENTS
+========================= */
 
-const message = document.getElementById("message");
-const attemptsText = document.getElementById("attempts");
+const lockScreen =
+    document.getElementById("lockScreen");
 
-const ownerDot = document.getElementById("ownerDot");
+const website =
+    document.getElementById("website");
 
-const recoveryBox = document.getElementById("recoveryBox");
-const recoveryInput = document.getElementById("recoveryInput");
-const recoveryButton = document.getElementById("recoveryButton");
-const recoveryMessage = document.getElementById("recoveryMessage");
+const passwordInput =
+    document.getElementById("passwordInput");
+
+const enterButton =
+    document.getElementById("enterButton");
+
+const message =
+    document.getElementById("message");
+
+const attemptsText =
+    document.getElementById("attempts");
+
+const lockedMessage =
+    document.getElementById("lockedMessage");
+
+const ownerDot =
+    document.getElementById("ownerDot");
+
+const recoveryBox =
+    document.getElementById("recoveryBox");
+
+const recoveryInput =
+    document.getElementById("recoveryInput");
+
+const recoveryButton =
+    document.getElementById("recoveryButton");
+
+const recoveryMessage =
+    document.getElementById("recoveryMessage");
+
+
+/* =========================
+   STORAGE
+========================= */
 
 let attempts = Number(
-    localStorage.getItem("underground_attempts") || 0
+    localStorage.getItem(
+        "underground_attempts"
+    ) || 0
 );
 
 let unlocked =
-    localStorage.getItem("underground_unlocked") === "true";
+    localStorage.getItem(
+        "underground_unlocked"
+    ) === "true";
 
 let locked =
-    localStorage.getItem("underground_locked") === "true";
+    localStorage.getItem(
+        "underground_locked"
+    ) === "true";
 
 
-function updateAttempts() {
+/* =========================
+   SHOW WEBSITE
+========================= */
 
-    const remaining = Math.max(0, 3 - attempts);
+function showWebsite(){
 
-    attemptsText.textContent =
-        remaining + " ATTEMPTS REMAINING";
-}
-
-
-function showWebsite() {
+    unlocked = true;
+    locked = false;
 
     localStorage.setItem(
         "underground_unlocked",
         "true"
+    );
+
+    localStorage.removeItem(
+        "underground_locked"
+    );
+
+    localStorage.removeItem(
+        "underground_attempts"
     );
 
     lockScreen.style.display = "none";
@@ -857,50 +874,70 @@ function showWebsite() {
 }
 
 
-function lockForever() {
+/* =========================
+   LOCK SCREEN
+========================= */
 
-    localStorage.setItem(
-        "underground_locked",
-        "true"
-    );
+function updateLockScreen(){
 
-    lockScreen.innerHTML = `
-        <div class="lock-box">
-
-            <div class="lock-title">
-                ACCESS DENIED
-            </div>
-
-            <div class="lock-subtitle">
-                ACCESS HAS BEEN LOCKED
-            </div>
-
-            <div style="
-                color:#ff6b8a;
-                font-size:13px;
-                line-height:1.7;
-            ">
-                Too many incorrect attempts.
-            </div>
-
-        </div>
-    `;
-
-    updateAttempts();
-}
-
-
-function checkPassword() {
-
-    if (locked) {
-        return;
-    }
-
-    if (passwordInput.value === PASSWORD) {
+    if(unlocked){
 
         showWebsite();
         return;
+    }
 
+    lockScreen.style.display = "flex";
+    website.style.display = "none";
+
+    ownerDot.style.display = "block";
+
+    if(locked){
+
+        passwordInput.disabled = true;
+        enterButton.disabled = true;
+
+        passwordInput.style.opacity = ".4";
+        enterButton.style.opacity = ".4";
+
+        lockedMessage.style.display = "block";
+
+        attemptsText.style.display = "none";
+
+        /*
+           IMPORTANT:
+           We do NOT replace the lockScreen HTML.
+           Therefore the owner recovery dot
+           and recovery system continue working.
+        */
+
+        return;
+    }
+
+    const remaining =
+        Math.max(0,3-attempts);
+
+    attemptsText.textContent =
+        remaining + " ATTEMPTS REMAINING";
+}
+
+
+/* =========================
+   NORMAL PASSWORD
+========================= */
+
+function checkPassword(){
+
+    if(locked){
+        return;
+    }
+
+    if(
+        passwordInput.value ===
+        NORMAL_PASSWORD
+    ){
+
+        showWebsite();
+        return;
     }
 
     attempts++;
@@ -912,17 +949,24 @@ function checkPassword() {
 
     passwordInput.value = "";
 
-    if (attempts >= 3) {
+    if(attempts >= 3){
 
-        lockForever();
+        locked = true;
 
-    } else {
+        localStorage.setItem(
+            "underground_locked",
+            "true"
+        );
+
+        message.textContent = "";
+        updateLockScreen();
+
+    }else{
 
         message.textContent =
             "INCORRECT PASSWORD";
 
-        updateAttempts();
-
+        updateLockScreen();
     }
 }
 
@@ -935,9 +979,9 @@ enterButton.addEventListener(
 
 passwordInput.addEventListener(
     "keydown",
-    function(event) {
+    function(event){
 
-        if (event.key === "Enter") {
+        if(event.key === "Enter"){
             checkPassword();
         }
 
@@ -946,64 +990,79 @@ passwordInput.addEventListener(
 
 
 /* =========================
-   OWNER RECOVERY
+   OWNER DOT
 ========================= */
 
 ownerDot.addEventListener(
     "click",
-    function() {
+    function(){
 
         recoveryBox.style.display =
             recoveryBox.style.display === "block"
             ? "none"
             : "block";
 
-        recoveryInput.focus();
+        recoveryMessage.textContent = "";
 
+        recoveryInput.value = "";
+
+        recoveryInput.focus();
     }
 );
 
 
+/* =========================
+   OWNER RECOVERY
+========================= */
+
+function recoverAccess(){
+
+    if(
+        recoveryInput.value ===
+        RECOVERY_PASSWORD
+    ){
+
+        attempts = 0;
+        locked = false;
+        unlocked = true;
+
+        localStorage.removeItem(
+            "underground_attempts"
+        );
+
+        localStorage.removeItem(
+            "underground_locked"
+        );
+
+        localStorage.setItem(
+            "underground_unlocked",
+            "true"
+        );
+
+        showWebsite();
+
+    }else{
+
+        recoveryMessage.textContent =
+            "INCORRECT RECOVERY PASSWORD.";
+
+        recoveryInput.value = "";
+    }
+}
+
+
 recoveryButton.addEventListener(
     "click",
-    function() {
-
-        if (recoveryInput.value === RECOVERY_PASSWORD) {
-
-            localStorage.removeItem(
-                "underground_locked"
-            );
-
-            localStorage.removeItem(
-                "underground_attempts"
-            );
-
-            localStorage.setItem(
-                "underground_unlocked",
-                "true"
-            );
-
-            showWebsite();
-
-        } else {
-
-            recoveryMessage.textContent =
-                "INCORRECT RECOVERY PASSWORD";
-
-            recoveryInput.value = "";
-
-        }
-
-    }
+    recoverAccess
 );
 
 
 recoveryInput.addEventListener(
     "keydown",
-    function(event) {
+    function(event){
 
-        if (event.key === "Enter") {
-            recoveryButton.click();
+        if(event.key === "Enter"){
+            recoverAccess();
         }
 
     }
@@ -1011,75 +1070,91 @@ recoveryInput.addEventListener(
 
 
 /* =========================
-   INITIAL PASSWORD CHECK
+   INITIALIZE
 ========================= */
 
-if (unlocked) {
+if(unlocked){
 
     showWebsite();
 
-} else if (locked) {
+}else{
 
-    lockForever();
-
-} else {
-
-    updateAttempts();
+    updateLockScreen();
 
 }
 
 
 /* =========================
-   GAME LAUNCHER
+   GAME SYSTEM
 ========================= */
 
 const gameLauncher =
-    document.getElementById("gameLauncher");
+    document.getElementById(
+        "gameLauncher"
+    );
 
 const gameFrame =
-    document.getElementById("gameFrame");
+    document.getElementById(
+        "gameFrame"
+    );
 
 const closeGame =
-    document.getElementById("closeGame");
+    document.getElementById(
+        "closeGame"
+    );
 
 
-document.querySelectorAll(".game-card")
-.forEach(function(card) {
+document.querySelectorAll(
+    ".game-card"
+).forEach(function(card){
 
-    card.addEventListener("click", function() {
+    card.addEventListener(
+        "click",
+        function(){
 
-        const game =
-            card.getAttribute("data-game");
+            const game =
+                card.getAttribute(
+                    "data-game"
+                );
 
-        if (!game) {
-            return;
+            if(!game){
+                return;
+            }
+
+            /*
+               The game is loaded ONLY
+               after the user clicks.
+            */
+
+            gameFrame.src = game;
+
+            gameLauncher.style.display =
+                "block";
+
+            document.body.style.overflow =
+                "hidden";
         }
-
-        gameFrame.src = game;
-
-        gameLauncher.style.display =
-            "block";
-
-        document.body.style.overflow =
-            "hidden";
-
-    });
+    );
 
 });
 
 
 closeGame.addEventListener(
     "click",
-    function() {
+    function(){
 
-        gameFrame.src = "about:blank";
+        /*
+           Stop the game when closing.
+        */
+
+        gameFrame.src =
+            "about:blank";
 
         gameLauncher.style.display =
             "none";
 
         document.body.style.overflow =
             "auto";
-
     }
 );
 
