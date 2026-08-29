@@ -3,31 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+ 
 <title>THE UNDERGROUND</title>
-
+<meta name="description" content="THE UNDERGROUND — a private, no-noise collection of browser games. Stay lowkey.">
+<meta name="theme-color" content="#05030f">
+ 
+<!-- Open Graph -->
+<meta property="og:title" content="THE UNDERGROUND">
+<meta property="og:description" content="A hidden collection of games. No noise. No distractions. Just enter and play.">
+<meta property="og:type" content="website">
+ 
+<!-- Favicon (inline SVG, no extra file needed) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2305030f'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%231683ff'%3E▲%3C/text%3E%3C/svg%3E">
+ 
 <style>
+ 
+/* =========================================================
+   RESET
+========================================================= */
+ 
 *{
     box-sizing:border-box;
-    scroll-behavior:smooth;
-}
-
-html,body{
     margin:0;
     padding:0;
-    min-height:100%;
 }
-
+ 
+html{
+    scroll-behavior:smooth;
+}
+ 
 body{
-    background:#08052e;
-    color:white;
+    min-height:100vh;
+    background:#05030f;
+    color:#fff;
     font-family:Arial,Helvetica,sans-serif;
     overflow-x:hidden;
 }
-
-/* =========================
-   PASSWORD SCREEN
-========================= */
-
+ 
+img{ max-width:100%; display:block; }
+ 
+/* Visible keyboard focus everywhere — this was missing before,
+   which made the whole site unusable via keyboard/screen reader. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible{
+    outline:2px solid #29ff9a;
+    outline-offset:3px;
+}
+ 
+.visually-hidden{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+}
+ 
+/* =========================================================
+   BACKGROUND
+========================================================= */
+ 
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0,110,255,.20), transparent 30%),
+        radial-gradient(circle at 85% 75%, rgba(233,0,255,.17), transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(0,229,255,.05), transparent 40%);
+    pointer-events:none;
+}
+ 
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:9998;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(to bottom, black, transparent);
+}
+ 
+/* =========================================================
+   CURSOR GLOW (disabled on touch devices — it was pure
+   overhead there since there's no cursor to follow)
+========================================================= */
+ 
+#cursorGlow{
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:9997;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(22,131,255,.13) 0%, rgba(22,131,255,.04) 30%, transparent 70%);
+    display:none;
+}
+ 
+@media(hover:hover) and (pointer:fine){
+    #cursorGlow{ display:block; }
+}
+ 
+/* =========================================================
+   PARTICLES
+========================================================= */
+ 
+#particles{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    overflow:hidden;
+    pointer-events:none;
+}
+ 
+.particle{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:#5bb0ff;
+    opacity:.5;
+    will-change:transform,opacity;
+    animation:floatParticle linear infinite;
+}
+ 
+@keyframes floatParticle{
+    from{ transform:translateY(110vh); opacity:0; }
+    15%{ opacity:.6; }
+    85%{ opacity:.4; }
+    to{ transform:translateY(-10vh); opacity:0; }
+}
+ 
+/* =========================================================
+   LOCK SCREEN
+========================================================= */
+ 
 #lockScreen{
     position:fixed;
     inset:0;
@@ -35,1130 +155,1597 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#08052e;
     padding:20px;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0,110,255,.17), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(233,0,255,.14), transparent 30%),
+        #05030f;
+    overflow:hidden;
 }
-
-#lockScreen:before{
+ 
+#lockScreen::before{
     content:"";
     position:absolute;
-    width:600px;
-    height:600px;
+    width:700px; height:700px;
+    border-radius:50%;
     background:#006eff;
     filter:blur(180px);
-    opacity:.18;
-    top:-250px;
-    left:-200px;
-    pointer-events:none;
+    opacity:.12;
+    top:-350px; left:-300px;
+    animation:orbMove 9s ease-in-out infinite alternate;
 }
-
-#lockScreen:after{
+ 
+#lockScreen::after{
     content:"";
     position:absolute;
-    width:500px;
-    height:500px;
+    width:600px; height:600px;
+    border-radius:50%;
     background:#e900ff;
     filter:blur(180px);
-    opacity:.15;
-    right:-200px;
-    bottom:-200px;
-    pointer-events:none;
+    opacity:.1;
+    right:-300px; bottom:-300px;
+    animation:orbMove 11s ease-in-out infinite alternate-reverse;
 }
-
+ 
+@keyframes orbMove{ from{ transform:translate(0,0); } to{ transform:translate(120px,80px); } }
+ 
 .lock-box{
     position:relative;
     z-index:2;
-    width:min(440px,100%);
-    padding:45px 35px;
+    width:min(470px,100%);
+    padding:48px 38px;
     text-align:center;
-    border:1px solid rgba(255,255,255,.14);
-    background:rgba(255,255,255,.045);
-    backdrop-filter:blur(18px);
-    box-shadow:0 0 50px rgba(0,0,0,.45);
+    background:rgba(10,8,30,.75);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(25px);
+    box-shadow:0 30px 100px rgba(0,0,0,.65), 0 0 80px rgba(22,131,255,.06);
+    animation:lockEnter 1s cubic-bezier(.16,1,.3,1);
 }
-
+ 
+@keyframes lockEnter{
+    from{ opacity:0; transform:translateY(35px) scale(.95); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+}
+ 
+.lock-status{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-bottom:22px; color:#6f7d9d; font-size:9px; letter-spacing:4px;
+}
+ 
+.status-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:#29ff9a; box-shadow:0 0 12px #29ff9a;
+    animation:pulseDot 1.5s infinite;
+}
+ 
+@keyframes pulseDot{ 50%{ opacity:.35; transform:scale(.7); } }
+ 
 .lock-title{
     display:inline-block;
+    padding:7px 12px;
     border:2px solid #1683ff;
-    padding:5px 9px;
-    font-size:clamp(26px,7vw,48px);
+    font-size:clamp(25px,7vw,47px);
     letter-spacing:-2px;
+    box-shadow:0 0 25px rgba(22,131,255,.15), inset 0 0 20px rgba(22,131,255,.04);
 }
-
-.lock-title span{
-    color:#1683ff;
-}
-
+ 
+.lock-title span{ color:#1683ff; }
+ 
 .lock-subtitle{
-    margin-top:14px;
-    margin-bottom:30px;
-    color:#75b4ff;
-    font-size:10px;
-    letter-spacing:5px;
+    margin-top:16px; margin-bottom:32px;
+    color:#75b4ff; font-size:10px; letter-spacing:5px;
 }
-
+ 
+.input-wrap{ position:relative; }
+ 
+.input-wrap::before{
+    content:">";
+    position:absolute; left:14px; top:50%;
+    transform:translateY(-50%);
+    color:#1683ff; font-size:20px; z-index:2;
+}
+ 
 #passwordInput,
 #recoveryInput{
     width:100%;
-    padding:14px;
-    border:1px solid rgba(255,255,255,.2);
+    padding:16px 42px;
+    border:1px solid rgba(255,255,255,.15);
     background:rgba(0,0,0,.35);
     color:white;
     outline:none;
     text-align:center;
-    font-size:15px;
+    font-size:14px;
+    letter-spacing:2px;
+    transition:.3s;
 }
-
+ 
+#passwordInput::placeholder,
+#recoveryInput::placeholder{ color:#59627d; }
+ 
 #passwordInput:focus,
 #recoveryInput:focus{
     border-color:#1683ff;
+    box-shadow:0 0 25px rgba(22,131,255,.12);
 }
-
+ 
 #enterButton,
 #recoveryButton{
+    position:relative;
     width:100%;
-    padding:14px;
+    padding:16px;
     margin-top:12px;
     border:1px solid #1683ff;
     background:#1683ff;
     color:white;
     font-weight:bold;
-    letter-spacing:2px;
+    letter-spacing:3px;
     cursor:pointer;
+    overflow:hidden;
+    transition:.3s;
 }
-
+ 
+#enterButton:disabled,
+#recoveryButton:disabled{ cursor:not-allowed; }
+ 
+#enterButton::before,
+#recoveryButton::before{
+    content:"";
+    position:absolute; top:0; left:-100%;
+    width:100%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+    transition:.5s;
+}
+ 
+#enterButton:hover::before,
+#recoveryButton:hover::before{ left:100%; }
+ 
 #enterButton:hover,
 #recoveryButton:hover{
     background:#006eff;
+    box-shadow:0 0 30px rgba(22,131,255,.25);
+    transform:translateY(-2px);
 }
-
+ 
+#enterButton:active,
+#recoveryButton:active{ transform:scale(.98); }
+ 
 #message{
-    min-height:20px;
-    margin-top:15px;
-    color:#ff6688;
-    font-size:12px;
+    min-height:20px; margin-top:15px;
+    color:#ff6688; font-size:11px; letter-spacing:2px;
+    /* role=alert added in HTML so screen readers announce this */
 }
-
-#attempts{
-    color:#66708d;
-    font-size:10px;
-    letter-spacing:2px;
-    margin-top:5px;
-}
-
+ 
+#attempts{ color:#66708d; font-size:9px; letter-spacing:3px; margin-top:5px; }
+ 
 #lockedMessage{
-    display:none;
-    margin-top:18px;
-    color:#ff4d6d;
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:2px;
+    display:none; margin-top:18px;
+    color:#ff4d6d; font-size:11px; font-weight:bold; letter-spacing:3px;
+    animation:blink 1s infinite;
 }
-
+ 
+@keyframes blink{ 50%{ opacity:.4; } }
+ 
 #recoveryBox{
-    display:none;
-    margin-top:28px;
-    padding-top:25px;
+    display:none; margin-top:28px; padding-top:25px;
     border-top:1px solid rgba(255,255,255,.1);
+    animation:fadeIn .4s ease;
 }
-
-.recovery-title{
-    color:#75b4ff;
-    font-size:10px;
-    letter-spacing:4px;
-    margin-bottom:12px;
+ 
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+ 
+.recovery-title{ color:#75b4ff; font-size:9px; letter-spacing:4px; margin-bottom:12px; }
+ 
+#recoveryMessage{ min-height:18px; margin-top:10px; color:#75b4ff; font-size:10px; }
+ 
+.shake{ animation:shake .45s ease; }
+ 
+@keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-10px); }
+    40%{ transform:translateX(10px); }
+    60%{ transform:translateX(-7px); }
+    80%{ transform:translateX(7px); }
 }
-
-#recoveryMessage{
-    min-height:18px;
-    margin-top:10px;
-    color:#75b4ff;
-    font-size:11px;
-}
-
-/* =========================
+ 
+/* =========================================================
    OWNER DOT
-========================= */
-
+========================================================= */
+ 
 #ownerDot{
-    position:fixed;
-    right:10px;
-    bottom:10px;
-    width:9px;
-    height:9px;
-    padding:0;
-    border:0;
-    border-radius:50%;
-    background:rgba(255,255,255,.16);
+    position:fixed; right:14px; bottom:14px;
+    width:9px; height:9px;
+    padding:0; border:0; border-radius:50%;
+    background:rgba(255,255,255,.13);
     cursor:pointer;
     z-index:1000000;
-}
-
-#ownerDot:hover{
-    background:rgba(22,131,255,.8);
-    box-shadow:0 0 12px rgba(22,131,255,.6);
-}
-
-/* =========================
-   WEBSITE
-========================= */
-
-#website{
-    display:none;
-}
-
-body::before{
-    content:"";
-    position:fixed;
-    width:600px;
-    height:600px;
-    background:#006eff;
-    filter:blur(180px);
-    opacity:.18;
-    top:-250px;
-    left:-200px;
-    z-index:-1;
-    pointer-events:none;
-}
-
-body::after{
-    content:"";
-    position:fixed;
-    width:500px;
-    height:500px;
-    background:#e900ff;
-    filter:blur(180px);
-    opacity:.15;
-    right:-200px;
-    bottom:-200px;
-    z-index:-1;
-    pointer-events:none;
-}
-
-/* NAV */
-
-nav{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    padding:20px 30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    z-index:100;
-    background:rgba(8,5,46,.65);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.nav-logo{
-    font-size:14px;
-    letter-spacing:3px;
-    font-weight:bold;
-}
-
-.nav-links{
-    display:flex;
-    gap:25px;
-}
-
-.nav-links a{
-    color:white;
-    text-decoration:none;
-    font-size:12px;
-    letter-spacing:2px;
-    opacity:.7;
     transition:.3s;
 }
-
-.nav-links a:hover{
-    color:#1c8cff;
-    opacity:1;
+ 
+#ownerDot:hover{
+    background:#1683ff;
+    box-shadow:0 0 18px rgba(22,131,255,.8);
+    transform:scale(1.5);
 }
-
-/* HERO */
-
+ 
+/* =========================================================
+   WEBSITE
+========================================================= */
+ 
+#website{ display:none; opacity:0; }
+ 
+#website.visible{ display:block; animation:websiteEnter 1s ease forwards; }
+ 
+@keyframes websiteEnter{ to{ opacity:1; } }
+ 
+/* =========================================================
+   NAV
+========================================================= */
+ 
+nav{
+    position:fixed; top:0; left:0; width:100%;
+    padding:18px 5%;
+    display:flex; justify-content:space-between; align-items:center;
+    z-index:1000;
+    background:rgba(5,3,15,.55);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+ 
+.nav-logo{ font-size:13px; letter-spacing:4px; font-weight:bold; }
+ 
+.nav-logo::after{
+    content:""; display:inline-block;
+    width:5px; height:5px; margin-left:7px; vertical-align:middle;
+    border-radius:50%; background:#29ff9a; box-shadow:0 0 10px #29ff9a;
+}
+ 
+.nav-right{ display:flex; align-items:center; gap:30px; }
+ 
+.nav-status{ color:#4d5772; font-size:8px; letter-spacing:2px; }
+ 
+.nav-status span{ color:#29ff9a; }
+ 
+.nav-links{ display:flex; gap:25px; }
+ 
+.nav-links a{
+    position:relative; color:white; text-decoration:none;
+    font-size:10px; letter-spacing:2px; opacity:.6; transition:.3s;
+}
+ 
+.nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-7px;
+    width:0; height:1px;
+    background:#1683ff; box-shadow:0 0 8px #1683ff; transition:.3s;
+}
+ 
+.nav-links a:hover,
+.nav-links a:focus-visible{ color:#fff; opacity:1; }
+ 
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after{ width:100%; }
+ 
+/* =========================================================
+   HERO
+========================================================= */
+ 
 .hero{
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    position:relative;
-    padding:100px 20px;
+    display:flex; justify-content:center; align-items:center; text-align:center;
+    position:relative; padding:100px 20px; overflow:hidden;
 }
-
+ 
+.hero-grid{
+    position:absolute; inset:0;
+    background-image:
+        linear-gradient(rgba(22,131,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(22,131,255,.035) 1px, transparent 1px);
+    background-size:70px 70px;
+    mask-image:linear-gradient(to bottom, transparent, black 30%, transparent);
+    animation:gridMove 15s linear infinite;
+}
+ 
+@keyframes gridMove{ from{ background-position:0 0; } to{ background-position:0 70px; } }
+ 
 .hero-content{
-    animation:fadeIn 1.5s ease;
+    position:relative; z-index:2;
+    animation:heroIn 1.3s cubic-bezier(.16,1,.3,1);
 }
-
+ 
+@keyframes heroIn{ from{ opacity:0; transform:translateY(35px); } to{ opacity:1; transform:translateY(0); } }
+ 
+.eyebrow{ margin-bottom:20px; color:#66708d; font-size:9px; letter-spacing:5px; }
+ 
+.eyebrow span{ color:#29ff9a; }
+ 
 .title{
-    display:inline-block;
+    position:relative; display:inline-block;
     border:2px solid #1683ff;
-    padding:4px 7px 5px;
-    font-size:clamp(30px,7vw,65px);
-    font-weight:500;
-    letter-spacing:-2px;
-    color:#eaf3ff;
-    box-shadow:0 0 30px rgba(22,131,255,.15);
+    padding:7px 11px 8px;
+    font-size:clamp(34px,7vw,72px);
+    font-weight:500; letter-spacing:-3px; color:#eaf3ff;
+    box-shadow:0 0 40px rgba(22,131,255,.12), inset 0 0 25px rgba(22,131,255,.04);
 }
-
-.title span{
-    color:#1683ff;
+ 
+.title::before{
+    content:""; position:absolute; width:12px; height:12px;
+    border-top:2px solid #29ff9a; border-left:2px solid #29ff9a;
+    top:-7px; left:-7px;
 }
-
-.subtitle{
-    margin-top:15px;
-    color:#75b4ff;
-    font-size:11px;
-    letter-spacing:8px;
+ 
+.title::after{
+    content:""; position:absolute; width:12px; height:12px;
+    border-bottom:2px solid #e900ff; border-right:2px solid #e900ff;
+    bottom:-7px; right:-7px;
 }
-
+ 
+.title span{ color:#1683ff; text-shadow:0 0 25px rgba(22,131,255,.5); }
+ 
+.subtitle{ margin-top:17px; color:#75b4ff; font-size:10px; letter-spacing:8px; }
+ 
+.hero-description{
+    margin:25px auto 0; max-width:500px;
+    color:#68728f; font-size:11px; line-height:1.8; letter-spacing:1px;
+}
+ 
+.hero-buttons{ display:flex; justify-content:center; gap:10px; margin-top:30px; }
+ 
+.hero-button{
+    padding:12px 22px;
+    border:1px solid rgba(22,131,255,.5);
+    background:rgba(22,131,255,.06);
+    color:white; text-decoration:none;
+    font-size:9px; letter-spacing:3px; transition:.3s;
+}
+ 
+.hero-button:hover,
+.hero-button:focus-visible{
+    background:#1683ff;
+    box-shadow:0 0 25px rgba(22,131,255,.3);
+    transform:translateY(-3px);
+}
+ 
 .scroll{
-    position:absolute;
-    bottom:30px;
-    left:50%;
+    position:absolute; bottom:30px; left:50%;
     transform:translateX(-50%);
-    color:rgba(255,255,255,.5);
-    font-size:10px;
-    letter-spacing:4px;
+    color:rgba(255,255,255,.35); font-size:8px; letter-spacing:4px;
     animation:bounce 2s infinite;
 }
-
-/* GAMES */
-
-section{
-    min-height:75vh;
-    padding:120px 8%;
+ 
+.scroll-line{ width:1px; height:35px; margin:8px auto 0; background:linear-gradient(#1683ff, transparent); }
+ 
+@keyframes bounce{ 0%,100%{ transform:translate(-50%,0); } 50%{ transform:translate(-50%,8px); } }
+ 
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+ 
+section{ min-height:75vh; padding:130px 8%; position:relative; }
+ 
+.games-section{ min-height:100vh; }
+ 
+.section-top{ display:flex; justify-content:space-between; align-items:flex-end; gap:30px; }
+ 
+.section-label{ color:#1683ff; font-size:9px; letter-spacing:5px; margin-bottom:15px; }
+ 
+.section-number{ color:#343b54; font-size:80px; font-weight:bold; line-height:.7; }
+ 
+h2{ font-size:clamp(38px,6vw,72px); margin:0; letter-spacing:-4px; line-height:.9; }
+ 
+.section-description{ max-width:390px; color:#68728f; font-size:11px; line-height:1.8; margin-top:20px; }
+ 
+/* =========================================================
+   LIVE VISITOR COUNTER
+========================================================= */
+ 
+.network-panel{
+    position:relative; margin-top:55px;
+    padding:22px 25px;
+    display:flex; align-items:center; justify-content:space-between; gap:25px;
+    background:linear-gradient(100deg, rgba(22,131,255,.07), rgba(255,255,255,.025), rgba(233,0,255,.06));
+    border:1px solid rgba(255,255,255,.1);
+    overflow:hidden;
+}
+ 
+.network-panel::before{
+    content:""; position:absolute; left:-100%; top:0;
+    width:50%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+    animation:networkScan 5s linear infinite;
+}
+ 
+@keyframes networkScan{ from{ left:-60%; } to{ left:120%; } }
+ 
+.network-left{ display:flex; align-items:center; gap:14px; }
+ 
+.live-dot{
+    width:9px; height:9px; border-radius:50%;
+    background:#29ff9a; box-shadow:0 0 15px #29ff9a;
+    animation:livePulse 1.5s infinite;
+}
+ 
+@keyframes livePulse{
+    0%,100%{ transform:scale(1); box-shadow:0 0 10px #29ff9a; }
+    50%{ transform:scale(.65); box-shadow:0 0 25px #29ff9a; }
+}
+ 
+.network-title{ font-size:9px; color:#68728f; letter-spacing:3px; }
+ 
+.network-title strong{ display:block; color:#29ff9a; font-size:11px; margin-bottom:3px; }
+ 
+.network-count{ display:flex; align-items:baseline; gap:10px; }
+ 
+#visitorCount{
+    min-width:40px; color:#fff; font-size:32px; font-weight:bold;
+    letter-spacing:-2px; text-shadow:0 0 20px rgba(22,131,255,.35);
+    transition:transform .3s, color .3s;
+}
+ 
+.count-label{ color:#59627d; font-size:8px; letter-spacing:3px; }
+ 
+.count-bump{ animation:countBump .6s cubic-bezier(.16,1,.3,1); }
+ 
+@keyframes countBump{
+    0%{ transform:scale(1); }
+    40%{ transform:scale(1.35); color:#1683ff; text-shadow:0 0 35px #1683ff; }
+    100%{ transform:scale(1); }
+}
+ 
+.network-error{ color:#59627d; font-size:8px; letter-spacing:2px; display:none; }
+ 
+/* =========================================================
+   SEARCH + FILTERS  (new)
+========================================================= */
+ 
+.controls{
+    margin-top:40px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    align-items:center;
+    justify-content:space-between;
+}
+ 
+.search-wrap{
     position:relative;
+    flex:1 1 260px;
+    max-width:340px;
 }
-
-.games-section{
-    min-height:100vh;
+ 
+.search-wrap::before{
+    content:"⌕";
+    position:absolute; left:14px; top:50%;
+    transform:translateY(-50%);
+    color:#1683ff; font-size:14px;
+    pointer-events:none;
 }
-
-.section-label{
-    color:#1683ff;
+ 
+#gameSearch{
+    width:100%;
+    padding:12px 14px 12px 36px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.03);
+    color:#fff;
     font-size:11px;
-    letter-spacing:5px;
-    margin-bottom:15px;
+    letter-spacing:1px;
+    outline:none;
+    transition:.3s;
 }
-
-h2{
-    font-size:clamp(35px,6vw,70px);
-    margin:0 0 25px;
-    letter-spacing:-2px;
+ 
+#gameSearch::placeholder{ color:#59627d; }
+ 
+#gameSearch:focus{
+    border-color:#1683ff;
+    box-shadow:0 0 20px rgba(22,131,255,.12);
 }
-
+ 
+.filter-pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+ 
+.filter-pill{
+    padding:9px 14px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.02);
+    color:#9aa4c2;
+    font-size:9px;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:.25s;
+}
+ 
+.filter-pill:hover{ border-color:rgba(22,131,255,.5); color:#fff; }
+ 
+.filter-pill[aria-pressed="true"]{
+    background:#1683ff;
+    border-color:#1683ff;
+    color:#fff;
+}
+ 
+#resultsMeta{
+    margin-top:18px;
+    color:#4d5772;
+    font-size:9px;
+    letter-spacing:2px;
+}
+ 
+#emptyState{
+    display:none;
+    margin-top:60px;
+    text-align:center;
+    color:#4d5772;
+    font-size:11px;
+    letter-spacing:2px;
+}
+ 
+/* =========================================================
+   GAME GRID
+========================================================= */
+ 
 .games-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    margin-top:60px;
+    gap:18px;
+    margin-top:25px;
 }
-
+ 
 .game-card{
     min-height:230px;
     padding:25px;
-    border:1px solid rgba(255,255,255,.12);
-    background:rgba(255,255,255,.035);
-    transition:.4s;
     position:relative;
     overflow:hidden;
     cursor:pointer;
+    border:1px solid rgba(255,255,255,.1);
+    background:linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+    backdrop-filter:blur(10px);
+    transition:transform .4s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .3s;
+    transform-style:preserve-3d;
 }
-
-.game-card:before{
+ 
+.game-card::before{
     content:"";
     position:absolute;
-    width:150px;
-    height:150px;
+    width:180px; height:180px;
     border-radius:50%;
-    filter:blur(60px);
+    filter:blur(70px);
+    opacity:.18;
+    transition:.5s;
+}
+ 
+.game-card:nth-child(3n+1)::before{ background:#006eff; top:-70px; right:-70px; }
+.game-card:nth-child(3n+2)::before{ background:#e900ff; bottom:-70px; left:-70px; }
+.game-card:nth-child(3n)::before{ background:#00e5ff; top:-70px; left:-70px; }
+ 
+.game-card::after{
+    content:"";
+    position:absolute; top:0; left:-100%;
+    width:60%; height:1px;
+    background:linear-gradient(90deg, transparent, #fff, transparent);
     opacity:.4;
+    transition:.6s;
 }
-
-.game-card:nth-child(3n+1):before{
-    background:#006eff;
-    top:-50px;
-    right:-50px;
-}
-
-.game-card:nth-child(3n+2):before{
-    background:#e900ff;
-    bottom:-50px;
-    left:-50px;
-}
-
-.game-card:nth-child(3n):before{
-    background:#00e5ff;
-    top:-50px;
-    left:-50px;
-}
-
-.game-card:hover{
+ 
+.game-card:hover::after,
+.game-card:focus-visible::after{ left:150%; }
+ 
+.game-card:hover,
+.game-card:focus-visible{
     transform:translateY(-10px);
-    border-color:#1683ff;
-    background:rgba(255,255,255,.07);
+    border-color:rgba(22,131,255,.65);
+    box-shadow:0 20px 50px rgba(0,0,0,.35), 0 0 35px rgba(22,131,255,.08);
 }
-
-.game-card h3{
+ 
+.game-card:hover::before{ opacity:.35; transform:scale(1.25); }
+ 
+.game-number{ position:absolute; top:18px; right:20px; color:#30374e; font-size:10px; letter-spacing:2px; }
+ 
+.game-icon{
     position:relative;
-    font-size:22px;
-    margin-top:100px;
-    margin-bottom:8px;
+    width:52px; height:52px;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid rgba(22,131,255,.4);
+    background:rgba(22,131,255,.06);
+    color:#1683ff; font-size:20px;
+    margin-bottom:40px;
+    transition:.4s;
 }
-
-.game-card p{
-    position:relative;
-    color:#8994b1;
-    font-size:11px;
-    letter-spacing:1px;
+ 
+.game-icon::before,
+.game-icon::after{ content:""; position:absolute; width:7px; height:7px; }
+ 
+.game-icon::before{ top:-1px; left:-1px; border-top:1px solid #1683ff; border-left:1px solid #1683ff; }
+.game-icon::after{ bottom:-1px; right:-1px; border-bottom:1px solid #e900ff; border-right:1px solid #e900ff; }
+ 
+.game-card:hover .game-icon{ transform:translateZ(20px) rotate(5deg); box-shadow:0 0 25px rgba(22,131,255,.18); }
+ 
+.game-card h3{ position:relative; font-size:18px; margin-bottom:8px; letter-spacing:-.5px; }
+ 
+.game-card p{ position:relative; color:#6c7693; font-size:9px; letter-spacing:2px; }
+ 
+.play-indicator{
+    position:absolute; bottom:20px; right:22px;
+    color:#1683ff; font-size:10px; opacity:.3; transition:.3s;
 }
-
-/* GAME LAUNCHER */
-
+ 
+.game-card:hover .play-indicator,
+.game-card:focus-visible .play-indicator{ opacity:1; transform:translateX(-4px); }
+ 
+/* =========================================================
+   BIG SECTION
+========================================================= */
+ 
+.color-section{
+    min-height:100vh;
+    display:flex; align-items:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(0,110,255,.12), transparent 35%),
+        radial-gradient(circle at 80% 50%, rgba(233,0,255,.1), transparent 35%);
+}
+ 
+.color-section::before{
+    content:""; position:absolute;
+    width:100%; height:1px; top:50%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+}
+ 
+.big-text{
+    position:relative; z-index:2;
+    font-size:clamp(55px,12vw,155px);
+    font-weight:bold; line-height:.8; letter-spacing:-9px;
+    max-width:1100px;
+}
+ 
+.big-text .small{
+    display:block; color:#566078;
+    font-size:.22em; letter-spacing:7px; margin-bottom:30px;
+}
+ 
+.blue{ color:#1683ff; text-shadow:0 0 50px rgba(22,131,255,.25); }
+.pink{ color:#e900ff; text-shadow:0 0 50px rgba(233,0,255,.18); }
+ 
+/* =========================================================
+   FOOTER
+========================================================= */
+ 
+footer{
+    position:relative; padding:70px 30px; text-align:center;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#3e465f; font-size:9px; letter-spacing:4px;
+}
+ 
+.footer-line{ width:50px; height:1px; margin:0 auto 25px; background:#1683ff; box-shadow:0 0 12px #1683ff; }
+ 
+/* =========================================================
+   REVEAL
+========================================================= */
+ 
+.reveal{
+    opacity:0;
+    transform:translateY(35px);
+    transition:opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+}
+ 
+.reveal.visible{ opacity:1; transform:translateY(0); }
+ 
+/* =========================================================
+   GAME LAUNCHER
+========================================================= */
+ 
 #gameLauncher{
     display:none;
-    position:fixed;
-    inset:0;
-    z-index:5000;
+    position:fixed; inset:0; z-index:5000;
     background:#000;
+    animation:gameOpen .45s cubic-bezier(.16,1,.3,1);
 }
-
-#gameFrame{
-    width:100%;
-    height:100%;
-    border:0;
-    background:#000;
+ 
+@keyframes gameOpen{ from{ opacity:0; transform:scale(.98); } to{ opacity:1; transform:scale(1); } }
+ 
+#gameLauncher.closing{ animation:gameClose .35s ease forwards; }
+ 
+@keyframes gameClose{ to{ opacity:0; transform:scale(.98); } }
+ 
+.game-topbar{
+    position:absolute; top:0; left:0; right:0; height:55px; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 15px;
+    background:linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,0));
+    opacity:0; transform:translateY(-10px); transition:.3s;
 }
-
+ 
+#gameLauncher:hover .game-topbar,
+#gameLauncher:focus-within .game-topbar{ opacity:1; transform:translateY(0); }
+ 
+.game-running{ display:flex; align-items:center; gap:8px; color:#8994b1; font-size:9px; letter-spacing:2px; }
+ 
+.game-running-dot{ width:6px; height:6px; background:#29ff9a; border-radius:50%; box-shadow:0 0 10px #29ff9a; }
+ 
+.game-title-live{ color:#fff; }
+ 
+.game-controls{ display:flex; gap:7px; }
+ 
+#fullscreenGame,
 #closeGame{
-    position:absolute;
-    top:15px;
-    right:15px;
-    z-index:10;
-    padding:10px 16px;
-    background:rgba(0,0,0,.75);
-    border:1px solid rgba(255,255,255,.3);
-    color:white;
-    cursor:pointer;
+    padding:10px 14px;
+    background:rgba(0,0,0,.7);
+    border:1px solid rgba(255,255,255,.2);
+    color:white; cursor:pointer;
+    font-size:9px; letter-spacing:1px; transition:.25s;
 }
-
-/* BIG AREA */
-
-.color-section{
-    min-height:90vh;
-    display:flex;
-    align-items:center;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(0,110,255,.15),
-            rgba(233,0,255,.12),
-            rgba(0,229,255,.1)
-        );
+ 
+#fullscreenGame:hover{ border-color:#1683ff; background:rgba(22,131,255,.15); }
+#closeGame:hover{ border-color:#ff4d6d; background:rgba(255,77,109,.12); color:#ff7b91; }
+ 
+#gameFrame{ width:100%; height:100%; border:0; background:#000; }
+ 
+#gameLoading{
+    position:absolute; inset:0; z-index:10;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:15px;
+    background:#05030f;
+    pointer-events:none;
+    transition:.5s;
 }
-
-.big-text{
-    font-size:clamp(50px,12vw,150px);
-    font-weight:bold;
-    line-height:.85;
-    letter-spacing:-8px;
-    max-width:1000px;
+ 
+#gameLoading.hidden{ opacity:0; }
+ 
+.loader{
+    width:35px; height:35px;
+    border:2px solid rgba(255,255,255,.08);
+    border-top-color:#1683ff; border-right-color:#e900ff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
 }
-
-.blue{
-    color:#1683ff;
-}
-
-.pink{
-    color:#e900ff;
-}
-
-/* FOOTER */
-
-footer{
-    padding:50px 30px;
+ 
+@keyframes spin{ to{ transform:rotate(360deg); } }
+ 
+#gameLoading span{ color:#66708d; font-size:8px; letter-spacing:4px; }
+ 
+#gameError{
+    display:none;
+    position:absolute; inset:0; z-index:11;
+    flex-direction:column; gap:14px;
+    align-items:center; justify-content:center;
+    background:#05030f;
+    color:#ff7b91;
+    font-size:11px;
+    letter-spacing:2px;
     text-align:center;
-    border-top:1px solid rgba(255,255,255,.1);
-    color:#66708d;
-    font-size:10px;
-    letter-spacing:4px;
+    padding:20px;
 }
-
-/* ANIMATIONS */
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+ 
+/* =========================================================
+   MOBILE
+========================================================= */
+ 
+@media(max-width:900px){
+    .games-grid{ grid-template-columns:repeat(2,1fr); }
+    .section-number{ display:none; }
 }
-
-@keyframes bounce{
-    0%,100%{
-        transform:translate(-50%,0);
-    }
-    50%{
-        transform:translate(-50%,10px);
-    }
-}
-
-/* MOBILE */
-
+ 
 @media(max-width:700px){
-
-    nav{
-        padding:18px;
-    }
-
-    .nav-links{
-        gap:12px;
-    }
-
-    .nav-links a{
-        font-size:9px;
-        letter-spacing:1px;
-    }
-
-    section{
-        padding:90px 25px;
-    }
-
-    .games-grid{
-        grid-template-columns:1fr;
-    }
-
-    .big-text{
-        letter-spacing:-4px;
-    }
+    nav{ padding:16px 18px; }
+    .nav-status{ display:none; }
+    .nav-links{ gap:15px; }
+    .nav-links a{ font-size:8px; }
+    section{ padding:95px 22px; }
+    .hero{ min-height:100svh; }
+    .title{ font-size:clamp(29px,9vw,50px); }
+    .subtitle{ letter-spacing:5px; }
+    .hero-description{ max-width:320px; }
+    .hero-buttons{ flex-direction:column; width:180px; margin-left:auto; margin-right:auto; }
+    .games-grid{ grid-template-columns:1fr; gap:14px; margin-top:30px; }
+    .game-card{ min-height:200px; }
+    .big-text{ letter-spacing:-5px; }
+    .section-top{ display:block; }
+    .lock-box{ padding:38px 23px; }
+    .game-topbar{ opacity:1; transform:none; }
+    .network-panel{ align-items:flex-start; flex-direction:column; }
+    .controls{ flex-direction:column; align-items:stretch; }
+    .search-wrap{ max-width:none; }
 }
+ 
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+ 
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+    #cursorGlow{ display:none !important; }
+}
+ 
 </style>
 </head>
-
+ 
 <body>
-
-<!-- =========================
+ 
+<div id="cursorGlow" aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+ 
+ 
+<!-- =========================================================
      PASSWORD
-========================= -->
-
-<div id="lockScreen">
-
-    <div class="lock-box">
-
-        <div class="lock-title">
+========================================================= -->
+ 
+<div id="lockScreen" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+ 
+    <div class="lock-box" id="lockBox">
+ 
+        <div class="lock-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            SECURE TERMINAL ONLINE
+        </div>
+ 
+        <div class="lock-title" id="lockTitle">
             <span>THE</span> UNDERGROUND
         </div>
-
-        <div class="lock-subtitle">
-            AUTHORIZED ACCESS ONLY
-        </div>
-
-        <input
-            id="passwordInput"
-            type="password"
-            placeholder="ENTER PASSWORD"
-            autocomplete="off"
-        >
-
-        <button id="enterButton">
-            ENTER
-        </button>
-
-        <div id="message"></div>
-
-        <div id="attempts">
-            3 ATTEMPTS REMAINING
-        </div>
-
-        <div id="lockedMessage">
-            ACCESS LOCKED
-        </div>
-
-        <!-- RECOVERY BOX -->
-        <div id="recoveryBox">
-
-            <div class="recovery-title">
-                OWNER RECOVERY
+ 
+        <div class="lock-subtitle">AUTHORIZED ACCESS ONLY</div>
+ 
+        <form id="unlockForm" novalidate>
+            <div class="input-wrap">
+                <label for="passwordInput" class="visually-hidden">Password</label>
+                <input
+                    id="passwordInput"
+                    type="password"
+                    placeholder="ENTER PASSWORD"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                >
             </div>
-
-            <input
-                id="recoveryInput"
-                type="password"
-                placeholder="RECOVERY PASSWORD"
-                autocomplete="off"
-            >
-
-            <button id="recoveryButton">
-                RECOVER ACCESS
-            </button>
-
-            <div id="recoveryMessage"></div>
-
+ 
+            <button type="submit" id="enterButton">ENTER THE UNDERGROUND</button>
+        </form>
+ 
+        <div id="message" role="alert"></div>
+ 
+        <div id="attempts">3 ATTEMPTS REMAINING</div>
+ 
+        <div id="lockedMessage" role="alert">ACCESS LOCKED</div>
+ 
+        <div id="recoveryBox">
+            <div class="recovery-title">OWNER RECOVERY</div>
+ 
+            <form id="recoveryForm" novalidate>
+                <label for="recoveryInput" class="visually-hidden">Recovery password</label>
+                <input
+                    id="recoveryInput"
+                    type="password"
+                    placeholder="RECOVERY PASSWORD"
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                >
+                <button type="submit" id="recoveryButton">RECOVER ACCESS</button>
+            </form>
+ 
+            <div id="recoveryMessage" role="alert"></div>
         </div>
-
+ 
     </div>
-
+ 
 </div>
-
-
-<!-- OWNER RECOVERY DOT -->
-
-<button
-    id="ownerDot"
-    title="Owner Recovery"
-    aria-label="Owner Recovery">
-</button>
-
-
-<!-- =========================
+ 
+ 
+<button id="ownerDot" title="Owner Recovery" aria-label="Owner Recovery"></button>
+ 
+ 
+<!-- =========================================================
      WEBSITE
-========================= -->
-
+========================================================= -->
+ 
 <div id="website">
-
-<nav>
-
-    <div class="nav-logo">
-        UNDERGROUND
-    </div>
-
-    <div class="nav-links">
-        <a href="#home">HOME</a>
-        <a href="#explore">GAMES</a>
-    </div>
-
-</nav>
-
-
-<section class="hero" id="home">
-
-    <div class="hero-content">
-
-        <div class="title">
-            <span>THE</span> UNDERGROUND
+ 
+    <nav>
+        <div class="nav-logo">UNDERGROUND</div>
+ 
+        <div class="nav-right">
+            <div class="nav-status">SYSTEM <span>● ONLINE</span></div>
+ 
+            <div class="nav-links">
+                <a href="#home">HOME</a>
+                <a href="#explore">GAMES</a>
+            </div>
         </div>
-
-        <div class="subtitle">
-            STAY LOWKEY
+    </nav>
+ 
+ 
+    <!-- HERO -->
+ 
+    <section class="hero" id="home">
+        <div class="hero-grid" aria-hidden="true"></div>
+ 
+        <div class="hero-content">
+            <div class="eyebrow"><span>●</span> PRIVATE ACCESS NETWORK</div>
+ 
+            <div class="title"><span>THE</span> UNDERGROUND</div>
+ 
+            <div class="subtitle">STAY LOWKEY</div>
+ 
+            <div class="hero-description">
+                A hidden collection of games.
+                No noise. No distractions.
+                Just enter and play.
+            </div>
+ 
+            <div class="hero-buttons">
+                <a class="hero-button" href="#explore">EXPLORE GAMES</a>
+            </div>
         </div>
-
-    </div>
-
-    <div class="scroll">
-        SCROLL ↓
-    </div>
-
-</section>
-
-
-<section class="games-section" id="explore">
-
-    <div class="section-label">
-        01 — GAMES
-    </div>
-
-    <h2>
-        ENTER<br>
-        THE UNDERGROUND.
-    </h2>
-
-    <div class="games-grid">
-
-        <div
-            class="game-card"
-            data-game="games/ageofwar.html"
-        >
-            <h3>AGE OF WAR</h3>
-            <p>CLICK TO PLAY</p>
+ 
+        <div class="scroll">
+            SCROLL
+            <div class="scroll-line"></div>
         </div>
-
-        <div
-            class="game-card"
-            data-game="games/timeshooter3.html"
-        >
-            <h3>TIME SHOOTER 3</h3>
-            <p>CLICK TO PLAY</p>
+    </section>
+ 
+ 
+    <!-- GAMES -->
+ 
+    <section class="games-section" id="explore">
+ 
+        <div class="section-top reveal">
+            <div>
+                <div class="section-label">01 — GAMES</div>
+                <h2>ENTER<br>THE UNDERGROUND.</h2>
+                <div class="section-description">
+                    Search, filter, or just scroll. Every game
+                    launches only after you click it.
+                </div>
+            </div>
+            <div class="section-number">01</div>
         </div>
-
-        <div
-            class="game-card"
-            data-game="games/ragdollarchers.html"
-        >
-            <h3>RAGDOLL ARCHERS</h3>
-            <p>CLICK TO PLAY</p>
+ 
+        <!-- VISITOR COUNTER -->
+ 
+        <div class="network-panel reveal">
+            <div class="network-left">
+                <div class="live-dot" aria-hidden="true"></div>
+                <div class="network-title">
+                    <strong>LIVE NETWORK</strong>
+                    UNDERGROUND ACTIVITY
+                </div>
+            </div>
+ 
+            <div class="network-count">
+                <span id="visitorCount" aria-live="polite">—</span>
+                <span class="count-label">VISITS TO THE UNDERGROUND</span>
+            </div>
+ 
+            <div id="networkError" class="network-error">NETWORK UNAVAILABLE</div>
         </div>
-
-        <div
-            class="game-card"
-            data-game="games/rooftopsnipers2.html"
-        >
-            <h3>ROOFTOP SNIPERS 2</h3>
-            <p>CLICK TO PLAY</p>
+ 
+        <!-- SEARCH + FILTERS -->
+ 
+        <div class="controls reveal">
+            <div class="search-wrap">
+                <label for="gameSearch" class="visually-hidden">Search games</label>
+                <input id="gameSearch" type="text" placeholder="SEARCH GAMES..." autocomplete="off">
+            </div>
+ 
+            <div class="filter-pills" id="filterPills" role="group" aria-label="Filter by category"></div>
         </div>
-
-        <div
-            class="game-card"
-            data-game="games/basketballlegends.html"
-        >
-            <h3>BASKETBALL LEGENDS</h3>
-            <p>CLICK TO PLAY</p>
+ 
+        <div id="resultsMeta" aria-live="polite"></div>
+ 
+        <!-- GAME GRID (populated by JS from the GAMES array below) -->
+ 
+        <div class="games-grid" id="gamesGrid"></div>
+ 
+        <div id="emptyState">NOTHING MATCHES THAT SEARCH.</div>
+ 
+    </section>
+ 
+ 
+    <!-- BIG SECTION -->
+ 
+    <section class="color-section">
+        <div class="big-text reveal">
+            <span class="small">YOU FOUND IT.</span>
+            THIS IS<br>
+            <span class="blue">THE</span><br>
+            <span class="pink">UNDERGROUND.</span>
         </div>
-
-        <div
-            class="game-card"
-            data-game="games/granny.html"
-        >
-            <h3>GRANNY</h3>
-            <p>CLICK TO PLAY</p>
-        </div>
-
-        <div
-            class="game-card"
-            data-game="games/geometrydash.html"
-        >
-            <h3>GEOMETRY DASH</h3>
-            <p>CLICK TO PLAY</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="color-section">
-
-    <div class="big-text">
-        THIS IS<br>
-        <span class="blue">THE</span>
-        <span class="pink">UNDERGROUND.</span>
-    </div>
-
-</section>
-
-
-<footer>
-    THE UNDERGROUND — STAY LOWKEY
-</footer>
-
+    </section>
+ 
+ 
+    <footer>
+        <div class="footer-line"></div>
+        THE UNDERGROUND — STAY LOWKEY
+    </footer>
+ 
 </div>
-
-
-<!-- =========================
-     GAME WINDOW
-========================= -->
-
-<div id="gameLauncher">
-
-    <button id="closeGame">
-        ✕ CLOSE GAME
-    </button>
-
+ 
+ 
+<!-- GAME WINDOW -->
+ 
+<div id="gameLauncher" role="dialog" aria-modal="true" aria-label="Game window">
+ 
+    <div class="game-topbar">
+        <div class="game-running">
+            <span class="game-running-dot" aria-hidden="true"></span>
+            <span class="game-title-live" id="gameTitleLive">GAME RUNNING</span>
+        </div>
+ 
+        <div class="game-controls">
+            <button id="fullscreenGame">⛶ FULLSCREEN</button>
+            <button id="closeGame">✕ CLOSE</button>
+        </div>
+    </div>
+ 
+    <div id="gameLoading">
+        <div class="loader" aria-hidden="true"></div>
+        <span>LOADING GAME...</span>
+    </div>
+ 
+    <div id="gameError">
+        <span>THIS GAME FAILED TO LOAD.</span>
+        <button id="gameErrorClose">✕ CLOSE</button>
+    </div>
+ 
     <iframe
         id="gameFrame"
+        title="Game"
         src="about:blank"
         allow="fullscreen; autoplay; gamepad; pointer-lock"
-        allowfullscreen>
+        allowfullscreen
+        loading="lazy">
     </iframe>
-
+ 
 </div>
-
-
+ 
+ 
 <script>
-
-/* =========================
-   PASSWORD SETTINGS
-========================= */
-
-const NORMAL_PASSWORD = "Stay Lowkey";
-
-/*
-   OWNER RECOVERY PASSWORD
-*/
-const RECOVERY_PASSWORD = "grant";
-
-
-/* =========================
+ 
+/* =========================================================
+   GAME DATA
+   -----------------------------------------------------------
+   One place to add/remove/edit games. Every entry needs:
+     title, file (path under games/), category, icon (1 glyph)
+   Add new games here — the grid, search and filters are all
+   generated from this array, nothing else needs to change.
+========================================================= */
+ 
+const GAMES = [
+    // already on the site
+    { title:"Age of War",          file:"games/ageofwar.html",       category:"Strategy", icon:"⚔" },
+    { title:"Time Shooter 3",      file:"games/timeshooter3.html",   category:"Action",   icon:"◉" },
+    { title:"Ragdoll Archers",     file:"games/ragdollarchers.html", category:"Action",   icon:"➶" },
+    { title:"Rooftop Snipers 2",   file:"games/rooftopsnipers2.html",category:"Arcade",   icon:"▲" },
+    { title:"Basketball Legends",  file:"games/basketballlegends.html", category:"Sports",icon:"◈" },
+    { title:"Granny",              file:"games/granny.html",         category:"Horror",   icon:"!" },
+    { title:"Geometry Dash",       file:"games/geometrydash.html",   category:"Arcade",   icon:"◆" },
+ 
+    // curated additions — original, open-source/freeware, or
+    // officially-free-to-embed titles only. Filenames match the
+    // "cl...html" names from your list; drop the actual files
+    // in /games/ with these exact names (or edit the paths below).
+    { title:"Cookie Clicker",        file:"games/clcookieclicker.html",       category:"Idle",     icon:"◍" },
+    { title:"Antimatter Dimensions", file:"games/clantimatterdimensions.html",category:"Idle",     icon:"◍" },
+    { title:"A Dark Room",           file:"games/cladarkroom.html",           category:"Idle",     icon:"◍" },
+    { title:"Deltarune",             file:"games/cldeltarune.html",           category:"Adventure",icon:"♦" },
+    { title:"Cave Story",            file:"games/clcavestory.html",           category:"Adventure",icon:"♦" },
+    { title:"Cell Machine",          file:"games/clcellmachine.html",         category:"Puzzle",   icon:"▦" },
+    { title:"Chess Classic",         file:"games/clchessclassic.html",        category:"Puzzle",   icon:"♟" },
+    { title:"Cut the Rope",          file:"games/clcuttherope.html",          category:"Puzzle",   icon:"✂" },
+    { title:"Draw Climber",          file:"games/cldrawclimber.html",         category:"Arcade",   icon:"✎" },
+    { title:"Dunk Shot",             file:"games/cldunkshot.html",            category:"Arcade",   icon:"●" },
+    { title:"Run 3",                 file:"games/clrun3.html",                category:"Arcade",   icon:"○" },
+    { title:"Bowmasters",            file:"games/clbowmaster.html",           category:"Action",   icon:"➶" },
+    { title:"Getaway Shootout",      file:"games/clgetawayshootout.html",     category:"Action",   icon:"●" },
+    { title:"Rooftop Snipers",       file:"games/clrooftopsnipers.html",      category:"Arcade",   icon:"▲" },
+    { title:"Basket Random",         file:"games/clbasketrandom.html",        category:"Sports",   icon:"◈" },
+    { title:"Boxing Random",         file:"games/clboxingrandom.html",        category:"Sports",   icon:"◈" },
+    { title:"Basketball Stars",      file:"games/clbasketballstars.html",     category:"Sports",   icon:"◈" },
+    { title:"Basket Bros",           file:"games/clbasketbros.html",          category:"Sports",   icon:"◈" },
+    { title:"Baseball Bros",         file:"games/clbaseballbros.html",        category:"Sports",   icon:"◈" },
+    { title:"Retro Bowl",            file:"games/clretrobowl.html",           category:"Sports",   icon:"◈" },
+    { title:"Drift Boss",            file:"games/cldriftboss.html",           category:"Racing",   icon:"▲" },
+    { title:"Drift Hunters",         file:"games/cldrifthuntersmerge.html",   category:"Racing",   icon:"▲" },
+    { title:"Eggy Car",              file:"games/cleggycar.html",             category:"Racing",   icon:"▲" },
+    { title:"Bridge Race",           file:"games/clbridgerace.html",          category:"Racing",   icon:"▲" },
+    { title:"Crazy Cars",            file:"games/clcrazycars.html",           category:"Racing",   icon:"▲" },
+    { title:"Grow A Garden",         file:"games/clgrowagarden.html",         category:"Simulation",icon:"❖" },
+    { title:"BuildNow.GG",           file:"games/clbuildnowgg.html",          category:"Simulation",icon:"❖" },
+];
+ 
+/* =========================================================
    ELEMENTS
-========================= */
-
-const lockScreen =
-    document.getElementById("lockScreen");
-
-const website =
-    document.getElementById("website");
-
-const passwordInput =
-    document.getElementById("passwordInput");
-
-const enterButton =
-    document.getElementById("enterButton");
-
-const message =
-    document.getElementById("message");
-
-const attemptsText =
-    document.getElementById("attempts");
-
-const lockedMessage =
-    document.getElementById("lockedMessage");
-
-const ownerDot =
-    document.getElementById("ownerDot");
-
-const recoveryBox =
-    document.getElementById("recoveryBox");
-
-const recoveryInput =
-    document.getElementById("recoveryInput");
-
-const recoveryButton =
-    document.getElementById("recoveryButton");
-
-const recoveryMessage =
-    document.getElementById("recoveryMessage");
-
-
-/* =========================
-   STORAGE
-========================= */
-
-let attempts = Number(
-    localStorage.getItem(
-        "underground_attempts"
-    ) || 0
-);
-
-let unlocked =
-    localStorage.getItem(
-        "underground_unlocked"
-    ) === "true";
-
-let locked =
-    localStorage.getItem(
-        "underground_locked"
-    ) === "true";
-
-
-/* =========================
+========================================================= */
+ 
+const lockScreen      = document.getElementById("lockScreen");
+const lockBox         = document.getElementById("lockBox");
+const website         = document.getElementById("website");
+const unlockForm      = document.getElementById("unlockForm");
+const passwordInput   = document.getElementById("passwordInput");
+const message         = document.getElementById("message");
+const attemptsText    = document.getElementById("attempts");
+const lockedMessage   = document.getElementById("lockedMessage");
+const ownerDot        = document.getElementById("ownerDot");
+const recoveryBox     = document.getElementById("recoveryBox");
+const recoveryForm    = document.getElementById("recoveryForm");
+const recoveryInput   = document.getElementById("recoveryInput");
+const recoveryMessage = document.getElementById("recoveryMessage");
+ 
+const gameLauncher  = document.getElementById("gameLauncher");
+const gameFrame     = document.getElementById("gameFrame");
+const closeGame     = document.getElementById("closeGame");
+const fullscreenGame= document.getElementById("fullscreenGame");
+const gameLoading   = document.getElementById("gameLoading");
+const gameError     = document.getElementById("gameError");
+const gameErrorClose= document.getElementById("gameErrorClose");
+const gameTitleLive = document.getElementById("gameTitleLive");
+ 
+const visitorCount  = document.getElementById("visitorCount");
+const networkError  = document.getElementById("networkError");
+ 
+const gamesGrid   = document.getElementById("gamesGrid");
+const gameSearch  = document.getElementById("gameSearch");
+const filterPills = document.getElementById("filterPills");
+const resultsMeta = document.getElementById("resultsMeta");
+const emptyState  = document.getElementById("emptyState");
+ 
+/*
+    NOTE ON THE PASSWORD GATE:
+    This is a client-side check — the password lives in this
+    file's source and anyone can read it with "view source" or
+    dev tools. Fine for a lighthearted "you found the door" vibe,
+    but don't treat it as real access control, and don't put
+    anything here you actually need to keep private (this is
+    doubly true once this is sitting in a public GitHub repo).
+*/
+ 
+const NORMAL_PASSWORD   = "Stay Lowkey";
+const RECOVERY_PASSWORD = "grant";
+ 
+/* =========================================================
+   VISITOR COUNTER
+========================================================= */
+ 
+const COUNTER_URL = "https://abacus.jasoncameron.dev/hit/the-underground-site/visits";
+ 
+async function trackVisitor(){
+    try{
+        const response = await fetch(COUNTER_URL, { method:"GET", cache:"no-store" });
+        if(!response.ok) throw new Error("Counter request failed");
+ 
+        const data = await response.json();
+        if(typeof data.value !== "number") throw new Error("Invalid counter response");
+ 
+        animateVisitorCount(data.value);
+    }catch(error){
+        console.warn("Visitor counter unavailable:", error);
+        visitorCount.textContent = "—";
+        networkError.style.display = "block";
+    }
+}
+ 
+function animateVisitorCount(newValue){
+    const oldValue = Number(visitorCount.textContent);
+ 
+    if(!Number.isFinite(oldValue)){
+        visitorCount.textContent = newValue.toLocaleString();
+        bump();
+        return;
+    }
+ 
+    const duration = 700;
+    const startTime = performance.now();
+ 
+    function animateNumber(currentTime){
+        const progress = Math.min((currentTime-startTime)/duration, 1);
+        const eased = 1-Math.pow(1-progress,3);
+        const current = Math.round(oldValue + (newValue-oldValue)*eased);
+        visitorCount.textContent = current.toLocaleString();
+ 
+        if(progress < 1){
+            requestAnimationFrame(animateNumber);
+        }else{
+            bump();
+        }
+    }
+ 
+    requestAnimationFrame(animateNumber);
+ 
+    function bump(){
+        visitorCount.classList.add("count-bump");
+        setTimeout(()=>visitorCount.classList.remove("count-bump"), 700);
+    }
+}
+ 
+/* =========================================================
+   STATE
+========================================================= */
+ 
+let attempts = Number(localStorage.getItem("underground_attempts") || 0);
+let unlocked = localStorage.getItem("underground_unlocked") === "true";
+let locked   = localStorage.getItem("underground_locked") === "true";
+ 
+/* =========================================================
    SHOW WEBSITE
-========================= */
-
+========================================================= */
+ 
 function showWebsite(){
-
     unlocked = true;
     locked = false;
-
-    localStorage.setItem(
-        "underground_unlocked",
-        "true"
-    );
-
-    localStorage.removeItem(
-        "underground_locked"
-    );
-
-    localStorage.removeItem(
-        "underground_attempts"
-    );
-
+ 
+    localStorage.setItem("underground_unlocked", "true");
+    localStorage.removeItem("underground_locked");
+    localStorage.removeItem("underground_attempts");
+ 
     lockScreen.style.display = "none";
-    website.style.display = "block";
+    website.classList.add("visible");
     ownerDot.style.display = "none";
+    document.body.style.overflow = "auto";
+ 
+    buildGamesGrid();
+    initReveal();
 }
-
-
-/* =========================
+ 
+/* =========================================================
    LOCK SCREEN
-========================= */
-
+========================================================= */
+ 
 function updateLockScreen(){
-
     if(unlocked){
-
         showWebsite();
         return;
     }
-
+ 
     lockScreen.style.display = "flex";
-    website.style.display = "none";
-
+    website.classList.remove("visible");
     ownerDot.style.display = "block";
-
+ 
     if(locked){
-
         passwordInput.disabled = true;
-        enterButton.disabled = true;
-
-        passwordInput.style.opacity = ".4";
-        enterButton.style.opacity = ".4";
-
+        document.getElementById("enterButton").disabled = true;
+        passwordInput.style.opacity = ".35";
+        document.getElementById("enterButton").style.opacity = ".35";
         lockedMessage.style.display = "block";
-
         attemptsText.style.display = "none";
-
-        /*
-           IMPORTANT:
-           We do NOT replace the lockScreen HTML.
-           Therefore the owner recovery dot
-           and recovery system continue working.
-        */
-
         return;
     }
-
-    const remaining =
-        Math.max(0,3-attempts);
-
-    attemptsText.textContent =
-        remaining + " ATTEMPTS REMAINING";
+ 
+    passwordInput.disabled = false;
+    document.getElementById("enterButton").disabled = false;
+    passwordInput.style.opacity = "1";
+    document.getElementById("enterButton").style.opacity = "1";
+    lockedMessage.style.display = "none";
+    attemptsText.style.display = "block";
+ 
+    const remaining = Math.max(0, 3-attempts);
+    attemptsText.textContent = remaining + " ATTEMPTS REMAINING";
 }
-
-
-/* =========================
-   NORMAL PASSWORD
-========================= */
-
+ 
+/* =========================================================
+   PASSWORD CHECK
+========================================================= */
+ 
 function checkPassword(){
-
-    if(locked){
-        return;
-    }
-
-    if(
-        passwordInput.value ===
-        NORMAL_PASSWORD
-    ){
-
+    if(locked) return;
+ 
+    if(passwordInput.value === NORMAL_PASSWORD){
         showWebsite();
         return;
     }
-
+ 
     attempts++;
-
-    localStorage.setItem(
-        "underground_attempts",
-        attempts
-    );
-
+    localStorage.setItem("underground_attempts", attempts);
     passwordInput.value = "";
-
+ 
+    lockBox.classList.remove("shake");
+    void lockBox.offsetWidth;
+    lockBox.classList.add("shake");
+ 
     if(attempts >= 3){
-
         locked = true;
-
-        localStorage.setItem(
-            "underground_locked",
-            "true"
-        );
-
+        localStorage.setItem("underground_locked", "true");
         message.textContent = "";
         updateLockScreen();
-
     }else{
-
-        message.textContent =
-            "INCORRECT PASSWORD";
-
+        message.textContent = "INCORRECT PASSWORD";
         updateLockScreen();
     }
 }
-
-
-enterButton.addEventListener(
-    "click",
-    checkPassword
-);
-
-
-passwordInput.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Enter"){
-            checkPassword();
-        }
-
-    }
-);
-
-
-/* =========================
-   OWNER DOT
-========================= */
-
-ownerDot.addEventListener(
-    "click",
-    function(){
-
-        recoveryBox.style.display =
-            recoveryBox.style.display === "block"
-            ? "none"
-            : "block";
-
-        recoveryMessage.textContent = "";
-
-        recoveryInput.value = "";
-
-        recoveryInput.focus();
-    }
-);
-
-
-/* =========================
+ 
+unlockForm.addEventListener("submit", function(event){
+    event.preventDefault();
+    checkPassword();
+});
+ 
+/* =========================================================
    OWNER RECOVERY
-========================= */
-
+========================================================= */
+ 
+ownerDot.addEventListener("click", function(){
+    const isOpen = recoveryBox.style.display === "block";
+    recoveryBox.style.display = isOpen ? "none" : "block";
+    recoveryMessage.textContent = "";
+    recoveryInput.value = "";
+    if(!isOpen) recoveryInput.focus();
+});
+ 
 function recoverAccess(){
-
-    if(
-        recoveryInput.value ===
-        RECOVERY_PASSWORD
-    ){
-
+    if(recoveryInput.value === RECOVERY_PASSWORD){
         attempts = 0;
         locked = false;
         unlocked = true;
-
-        localStorage.removeItem(
-            "underground_attempts"
-        );
-
-        localStorage.removeItem(
-            "underground_locked"
-        );
-
-        localStorage.setItem(
-            "underground_unlocked",
-            "true"
-        );
-
+ 
+        localStorage.removeItem("underground_attempts");
+        localStorage.removeItem("underground_locked");
+        localStorage.setItem("underground_unlocked", "true");
+ 
         showWebsite();
-
     }else{
-
-        recoveryMessage.textContent =
-            "INCORRECT RECOVERY PASSWORD.";
-
+        recoveryMessage.textContent = "INCORRECT RECOVERY PASSWORD.";
         recoveryInput.value = "";
     }
 }
-
-
-recoveryButton.addEventListener(
-    "click",
-    recoverAccess
-);
-
-
-recoveryInput.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Enter"){
-            recoverAccess();
-        }
-
-    }
-);
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
-if(unlocked){
-
-    showWebsite();
-
-}else{
-
-    updateLockScreen();
-
-}
-
-
-/* =========================
-   GAME SYSTEM
-========================= */
-
-const gameLauncher =
-    document.getElementById(
-        "gameLauncher"
-    );
-
-const gameFrame =
-    document.getElementById(
-        "gameFrame"
-    );
-
-const closeGame =
-    document.getElementById(
-        "closeGame"
-    );
-
-
-document.querySelectorAll(
-    ".game-card"
-).forEach(function(card){
-
-    card.addEventListener(
-        "click",
-        function(){
-
-            const game =
-                card.getAttribute(
-                    "data-game"
-                );
-
-            if(!game){
-                return;
-            }
-
-            /*
-               The game is loaded ONLY
-               after the user clicks.
-            */
-
-            gameFrame.src = game;
-
-            gameLauncher.style.display =
-                "block";
-
-            document.body.style.overflow =
-                "hidden";
-        }
-    );
-
+ 
+recoveryForm.addEventListener("submit", function(event){
+    event.preventDefault();
+    recoverAccess();
 });
-
-
-closeGame.addEventListener(
-    "click",
-    function(){
-
-        /*
-           Stop the game when closing.
-        */
-
-        gameFrame.src =
-            "about:blank";
-
-        gameLauncher.style.display =
-            "none";
-
-        document.body.style.overflow =
-            "auto";
+ 
+/* =========================================================
+   PARTICLES
+========================================================= */
+ 
+const particleContainer = document.getElementById("particles");
+const particleCount = window.matchMedia("(max-width:700px)").matches ? 20 : 40;
+ 
+for(let i=0;i<particleCount;i++){
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.left = Math.random()*100 + "%";
+    particle.style.animationDuration = (8+Math.random()*15) + "s";
+    particle.style.animationDelay = (-Math.random()*20) + "s";
+    particle.style.opacity = (.15+Math.random()*.5);
+    particleContainer.appendChild(particle);
+}
+ 
+/* =========================================================
+   CURSOR GLOW (only runs where it's actually shown)
+========================================================= */
+ 
+const cursorGlow = document.getElementById("cursorGlow");
+const hasFineCursor = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+ 
+if(hasFineCursor){
+    let mouseX = window.innerWidth/2;
+    let mouseY = window.innerHeight/2;
+    let glowX = mouseX;
+    let glowY = mouseY;
+ 
+    document.addEventListener("mousemove", function(event){
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
+ 
+    function animateGlow(){
+        glowX += (mouseX-glowX)*.08;
+        glowY += (mouseY-glowY)*.08;
+        cursorGlow.style.left = glowX + "px";
+        cursorGlow.style.top = glowY + "px";
+        requestAnimationFrame(animateGlow);
     }
-);
-
+ 
+    animateGlow();
+}
+ 
+/* =========================================================
+   SCROLL REVEALS
+========================================================= */
+ 
+function initReveal(){
+    const reveals = document.querySelectorAll(".reveal");
+ 
+    const observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold:.12 });
+ 
+    reveals.forEach(function(element, index){
+        element.style.transitionDelay = Math.min(index*.06, .35) + "s";
+        observer.observe(element);
+    });
+}
+ 
+/* =========================================================
+   GAME GRID — built from the GAMES array, filterable + searchable
+========================================================= */
+ 
+let activeCategory = "All";
+let searchTerm = "";
+ 
+function getCategories(){
+    return ["All", ...new Set(GAMES.map(g => g.category))];
+}
+ 
+function buildFilterPills(){
+    filterPills.innerHTML = "";
+ 
+    getCategories().forEach(category => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = "filter-pill";
+        pill.textContent = category.toUpperCase();
+        pill.setAttribute("aria-pressed", category === activeCategory ? "true" : "false");
+ 
+        pill.addEventListener("click", function(){
+            activeCategory = category;
+            document.querySelectorAll(".filter-pill").forEach(p => p.setAttribute("aria-pressed","false"));
+            pill.setAttribute("aria-pressed","true");
+            renderGames();
+        });
+ 
+        filterPills.appendChild(pill);
+    });
+}
+ 
+function renderGames(){
+    const term = searchTerm.trim().toLowerCase();
+ 
+    const filtered = GAMES.filter(game => {
+        const matchesCategory = activeCategory === "All" || game.category === activeCategory;
+        const matchesSearch = game.title.toLowerCase().includes(term) || game.category.toLowerCase().includes(term);
+        return matchesCategory && matchesSearch;
+    });
+ 
+    gamesGrid.innerHTML = "";
+ 
+    filtered.forEach((game, index) => {
+        const card = document.createElement("div");
+        card.className = "game-card reveal visible";
+        card.setAttribute("role","button");
+        card.setAttribute("tabindex","0");
+        card.setAttribute("aria-label","Play " + game.title);
+        card.dataset.game = game.file;
+        card.dataset.title = game.title;
+ 
+        card.innerHTML =
+            '<div class="game-number">' + String(index+1).padStart(3,"0") + '</div>' +
+            '<div class="game-icon" aria-hidden="true">' + game.icon + '</div>' +
+            '<h3>' + game.title.toUpperCase() + '</h3>' +
+            '<p>' + game.category.toUpperCase() + '</p>' +
+            '<div class="play-indicator">PLAY →</div>';
+ 
+        card.addEventListener("click", () => launchGame(game.file, game.title));
+        card.addEventListener("keydown", function(event){
+            if(event.key === "Enter" || event.key === " "){
+                event.preventDefault();
+                launchGame(game.file, game.title);
+            }
+        });
+ 
+        card.addEventListener("mousemove", function(event){
+            if(window.innerWidth < 800 || !hasFineCursor) return;
+ 
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width/2;
+            const centerY = rect.height/2;
+            const rotateY = ((x-centerX)/centerX) * 3;
+            const rotateX = ((centerY-y)/centerY) * 3;
+ 
+            card.style.transform = `translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+ 
+        card.addEventListener("mouseleave", function(){ card.style.transform = ""; });
+ 
+        gamesGrid.appendChild(card);
+    });
+ 
+    resultsMeta.textContent = filtered.length + " GAME" + (filtered.length===1?"":"S") +
+        (activeCategory !== "All" ? " IN " + activeCategory.toUpperCase() : "") +
+        (term ? " MATCHING \"" + term.toUpperCase() + "\"" : "");
+ 
+    emptyState.style.display = filtered.length === 0 ? "block" : "none";
+}
+ 
+function buildGamesGrid(){
+    buildFilterPills();
+    renderGames();
+}
+ 
+let searchDebounce;
+gameSearch.addEventListener("input", function(){
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(function(){
+        searchTerm = gameSearch.value;
+        renderGames();
+    }, 120);
+});
+ 
+/* =========================================================
+   GAME LAUNCHER
+========================================================= */
+ 
+let lastFocusedCard = null;
+ 
+function launchGame(file, title){
+    lastFocusedCard = document.activeElement;
+ 
+    gameError.style.display = "none";
+    gameLoading.classList.remove("hidden");
+    gameTitleLive.textContent = title ? title.toUpperCase() : "GAME RUNNING";
+ 
+    gameLauncher.style.display = "block";
+    document.body.style.overflow = "hidden";
+    gameFrame.src = file;
+ 
+    closeGame.focus();
+}
+ 
+gameFrame.addEventListener("load", function(){
+    setTimeout(function(){ gameLoading.classList.add("hidden"); }, 400);
+});
+ 
+gameFrame.addEventListener("error", function(){
+    gameLoading.classList.add("hidden");
+    gameError.style.display = "flex";
+});
+ 
+function closeGameWindow(){
+    gameLauncher.classList.add("closing");
+ 
+    setTimeout(function(){
+        gameFrame.src = "about:blank";
+        gameLauncher.style.display = "none";
+        gameLauncher.classList.remove("closing");
+        gameLoading.classList.remove("hidden");
+        gameError.style.display = "none";
+        document.body.style.overflow = "auto";
+ 
+        if(lastFocusedCard) lastFocusedCard.focus();
+    }, 300);
+}
+ 
+closeGame.addEventListener("click", closeGameWindow);
+gameErrorClose.addEventListener("click", closeGameWindow);
+ 
+fullscreenGame.addEventListener("click", function(){
+    if(document.fullscreenElement){
+        document.exitFullscreen();
+        return;
+    }
+    if(gameFrame.requestFullscreen) gameFrame.requestFullscreen();
+});
+ 
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape" && gameLauncher.style.display === "block"){
+        if(document.fullscreenElement) return;
+        closeGameWindow();
+    }
+});
+ 
+/* =========================================================
+   INITIALIZE
+========================================================= */
+ 
+if(unlocked){
+    showWebsite();
+}else{
+    updateLockScreen();
+}
+ 
+trackVisitor();
+ 
 </script>
-
+ 
 </body>
 </html>
+ 
