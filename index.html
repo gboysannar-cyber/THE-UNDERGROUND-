@@ -1215,7 +1215,7 @@ footer{
 ========================================================= */
  
 const GAMES = [
-    // already on the site
+    // already on the site — these live directly under games/
     { title:"Age of War",          file:"games/ageofwar.html",       category:"Strategy", icon:"⚔" },
     { title:"Time Shooter 3",      file:"games/timeshooter3.html",   category:"Action",   icon:"◉" },
     { title:"Ragdoll Archers",     file:"games/ragdollarchers.html", category:"Action",   icon:"➶" },
@@ -1224,37 +1224,18 @@ const GAMES = [
     { title:"Granny",              file:"games/granny.html",         category:"Horror",   icon:"!" },
     { title:"Geometry Dash",       file:"games/geometrydash.html",   category:"Arcade",   icon:"◆" },
  
-    // curated additions — original, open-source/freeware, or
-    // officially-free-to-embed titles only. Filenames match the
-    // "cl...html" names from your list; drop the actual files
-    // in /games/ with these exact names (or edit the paths below).
-    { title:"Cookie Clicker",        file:"games/clcookieclicker.html",       category:"Idle",     icon:"◍" },
-    { title:"Antimatter Dimensions", file:"games/clantimatterdimensions.html",category:"Idle",     icon:"◍" },
-    { title:"A Dark Room",           file:"games/cladarkroom.html",           category:"Idle",     icon:"◍" },
-    { title:"Deltarune",             file:"games/cldeltarune.html",           category:"Adventure",icon:"♦" },
-    { title:"Cave Story",            file:"games/clcavestory.html",           category:"Adventure",icon:"♦" },
-    { title:"Cell Machine",          file:"games/clcellmachine.html",         category:"Puzzle",   icon:"▦" },
-    { title:"Chess Classic",         file:"games/clchessclassic.html",        category:"Puzzle",   icon:"♟" },
-    { title:"Cut the Rope",          file:"games/clcuttherope.html",          category:"Puzzle",   icon:"✂" },
-    { title:"Draw Climber",          file:"games/cldrawclimber.html",         category:"Arcade",   icon:"✎" },
-    { title:"Dunk Shot",             file:"games/cldunkshot.html",            category:"Arcade",   icon:"●" },
-    { title:"Run 3",                 file:"games/clrun3.html",                category:"Arcade",   icon:"○" },
-    { title:"Bowmasters",            file:"games/clbowmaster.html",           category:"Action",   icon:"➶" },
-    { title:"Getaway Shootout",      file:"games/clgetawayshootout.html",     category:"Action",   icon:"●" },
-    { title:"Rooftop Snipers",       file:"games/clrooftopsnipers.html",      category:"Arcade",   icon:"▲" },
-    { title:"Basket Random",         file:"games/clbasketrandom.html",        category:"Sports",   icon:"◈" },
-    { title:"Boxing Random",         file:"games/clboxingrandom.html",        category:"Sports",   icon:"◈" },
-    { title:"Basketball Stars",      file:"games/clbasketballstars.html",     category:"Sports",   icon:"◈" },
-    { title:"Basket Bros",           file:"games/clbasketbros.html",          category:"Sports",   icon:"◈" },
-    { title:"Baseball Bros",         file:"games/clbaseballbros.html",        category:"Sports",   icon:"◈" },
-    { title:"Retro Bowl",            file:"games/clretrobowl.html",           category:"Sports",   icon:"◈" },
-    { title:"Drift Boss",            file:"games/cldriftboss.html",           category:"Racing",   icon:"▲" },
-    { title:"Drift Hunters",         file:"games/cldrifthuntersmerge.html",   category:"Racing",   icon:"▲" },
-    { title:"Eggy Car",              file:"games/cleggycar.html",             category:"Racing",   icon:"▲" },
-    { title:"Bridge Race",           file:"games/clbridgerace.html",          category:"Racing",   icon:"▲" },
-    { title:"Crazy Cars",            file:"games/clcrazycars.html",           category:"Racing",   icon:"▲" },
-    { title:"Grow A Garden",         file:"games/clgrowagarden.html",         category:"Simulation",icon:"❖" },
-    { title:"BuildNow.GG",           file:"games/clbuildnowgg.html",          category:"Simulation",icon:"❖" },
+    // curated additions — these live in games/games/ and use the
+    // filenames actually saved in the repo (no "cl" prefix).
+    // If you ever move them up into games/ instead, just delete
+    // the extra "games/" from each path below.
+    { title:"Cookie Clicker",        file:"games/games/cookieclicker.html",       category:"Idle",     icon:"◍" },
+    { title:"Antimatter Dimensions", file:"games/games/antimatterdimensions.html",category:"Idle",     icon:"◍" },
+    { title:"A Dark Room",           file:"games/games/adarkroom.html",           category:"Idle",     icon:"◍" },
+    { title:"Deltarune",             file:"games/games/deltarune.html",           category:"Adventure",icon:"♦" },
+    { title:"Cave Story",            file:"games/games/cavestory.html",           category:"Adventure",icon:"♦" },
+    { title:"Cell Machine",          file:"games/games/cellmachine.html",         category:"Puzzle",   icon:"▦" },
+    { title:"Chess Classic",         file:"games/games/chessclassic.html",        category:"Puzzle",   icon:"♟" },
+    { title:"Cut the Rope",          file:"games/games/cuttherope.html",          category:"Puzzle",   icon:"✂" },
 ];
  
 /* =========================================================
