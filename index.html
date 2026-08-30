@@ -1215,19 +1215,18 @@ footer{
 ========================================================= */
  
 const GAMES = [
-    // already on the site — these live directly under games/
-    { title:"Age of War",          file:"games/ageofwar.html",       category:"Strategy", icon:"⚔" },
-    { title:"Time Shooter 3",      file:"games/timeshooter3.html",   category:"Action",   icon:"◉" },
-    { title:"Ragdoll Archers",     file:"games/ragdollarchers.html", category:"Action",   icon:"➶" },
-    { title:"Rooftop Snipers 2",   file:"games/rooftopsnipers2.html",category:"Arcade",   icon:"▲" },
-    { title:"Basketball Legends",  file:"games/basketballlegends.html", category:"Sports",icon:"◈" },
-    { title:"Granny",              file:"games/granny.html",         category:"Horror",   icon:"!" },
-    { title:"Geometry Dash",       file:"games/geometrydash.html",   category:"Arcade",   icon:"◆" },
+    // ageofwar.html is the only one directly under games/
+    { title:"Age of War",          file:"games/ageofwar.html",              category:"Strategy", icon:"⚔" },
  
-    // curated additions — these live in games/games/ and use the
-    // filenames actually saved in the repo (no "cl" prefix).
-    // If you ever move them up into games/ instead, just delete
-    // the extra "games/" from each path below.
+    // everything else currently sits in games/games/ — update these
+    // paths (remove the extra "games/") if you ever move the files up
+    { title:"Time Shooter 3",      file:"games/games/timeshooter3.html",    category:"Action",   icon:"◉" },
+    { title:"Ragdoll Archers",     file:"games/games/ragdollarchers.html",  category:"Action",   icon:"➶" },
+    { title:"Rooftop Snipers 2",   file:"games/games/rooftopsnipers2.html", category:"Arcade",   icon:"▲" },
+    { title:"Basketball Legends",  file:"games/games/basketballlegends.html", category:"Sports", icon:"◈" },
+    { title:"Granny",              file:"games/games/granny.html",          category:"Horror",   icon:"!" },
+    { title:"Geometry Dash",       file:"games/games/geometrydash.html",    category:"Arcade",   icon:"◆" },
+ 
     { title:"Cookie Clicker",        file:"games/games/cookieclicker.html",       category:"Idle",     icon:"◍" },
     { title:"Antimatter Dimensions", file:"games/games/antimatterdimensions.html",category:"Idle",     icon:"◍" },
     { title:"A Dark Room",           file:"games/games/adarkroom.html",           category:"Idle",     icon:"◍" },
